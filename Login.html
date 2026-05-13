@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modern Auth - Responsive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Firebase Compatibility Libraries -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #cc3a52 0%, #3e2154 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screen-container {
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+    }
+
+    .card-container {
+      position: relative;
+      width: 100%;
+      height: 620px; /* Fixed height for the container */
+    }
+
+    .card-bg {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      border-radius: 24px;
+      z-index: 1;
+    }
+
+    .card-bg-1 { transform: rotate(-3deg); background: rgba(255, 255, 255, 0.05); }
+    .card-bg-2 { transform: rotate(3deg); background: rgba(255, 255, 255, 0.08); }
+
+    .main-card {
+      position: relative;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      z-index: 3;
+      overflow: hidden; /* This hides the other form */
+      width: 100%;
+      height: 100%; /* Matches card-container height */
+    }
+
+    .forms-wrapper {
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      height: 200%; /* Two forms, each 100% of main-card height */
+    }
+
+    .form-content {
+      height: 50%; /* Each form takes exactly half of the wrapper (which is 1 full card height) */
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .form-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    .form-subtitle {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #374151;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #f3f4f6;
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.2s;
+      background: #f9fafb;
+    }
+
+    .input-group input:focus {
+      border-color: #cc3a52;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(204, 58, 82, 0.1);
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #e94b63 0%, #3e2b5e 100%);
+      color: white;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 15px -3px rgba(233, 75, 99, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 15px 20px -5px rgba(233, 75, 99, 0.4);
+    }
+
+    .btn-google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: white;
+      color: #374151;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 2px solid #f3f4f6;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: #9ca3af;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #e5e7eb; }
+    .divider:not(:empty)::before { margin-right: 1em; }
+    .divider:not(:empty)::after { margin-left: 1em; }
+
+    .link-text { margin-top: 24px; font-size: 14px; color: #6b7280; }
+    .link-text span { color: #e94b63; font-weight: 700; cursor: pointer; }
+
+    .message {
+      margin-bottom: 15px;
+      font-size: 13px;
+      padding: 12px;
+      border-radius: 10px;
+      display: none;
+    }
+    .message.active { display: block; }
+    .message.error { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+    .message.success { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+
+    /* The sliding animation */
+    .show-signup .forms-wrapper { 
+      transform: translateY(-50%); 
+    }
+  </style>
+</head>
+<body>
+  <div class="screen-container" id="mainContainer">
+    <div class="card-container">
+      <div class="card-bg card-bg-1"></div>
+      <div class="card-bg card-bg-2"></div>
+
+      <div class="main-card">
+        <div class="forms-wrapper">
+          <!-- Login -->
+          <div class="form-content">
+            <h1 class="form-title">Welcome Back</h1>
+            <p class="form-subtitle">Enter your email to access your account</p>
+            <div id="loginMessage" class="message"></div>
+            <form id="loginForm">
+              <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="loginEmail" placeholder="name@company.com" required />
+              </div>
+              <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="••••••••" required />
+              </div>
+              <button type="submit" class="btn-action">Sign In</button>
+              <div class="divider">Or</div>
+              <button type="button" class="btn-google" id="googleLoginBtn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="G">
+                Sign in with Google
+              </button>
+              <p class="link-text">New here? <span onclick="toggleForm()">Create an account</span></p>
+            </form>
+          </div>
+
+          <!-- Signup -->
+          <div class="form-content">
+            <h1 class="form-title">Get Started</h1>
+            <p class="form-subtitle">Create a free account in just a minute</p>
+            <div id="signupMessage" class="message"></div>
+            <form id="signupForm">
+              <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="signupName" placeholder="Your Name" required />
+              </div>
+              <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="signupEmail" placeholder="name@company.com" required />
+              </div>
+              <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="signupPassword" placeholder="Min. 6 characters" required minlength="6" />
+              </div>
+              <button type="submit" class="btn-action">Sign Up</button>
+              <p class="link-text">Already have an account? <span onclick="toggleForm()">Login here</span></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC5fBfvrtbcDUJTdP5-jc9adfxJWc53n94",
+      authDomain: "auth-d7f3a.firebaseapp.com",
+      projectId: "auth-d7f3a",
+      storageBucket: "auth-d7f3a.firebasestorage.app",
+      messagingSenderId: "200460928170",
+      appId: "1:200460928170:web:923331402c31bda2a3bcd3"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    function showStatus(msgId, text, type) {
+      const el = document.getElementById(msgId);
+      el.textContent = text;
+      el.className = `message active ${type}`;
+    }
+
+    // Google Login Redirect
+    document.getElementById('googleLoginBtn').addEventListener('click', async () => {
+      try {
+        await auth.signInWithPopup(provider);
+        window.location.href = "TrustWay.html"; // Redirect to Main Page
+      } catch (error) {
+        showStatus('loginMessage', error.message, 'error');
+      }
+    });
+
+    // Email Login Redirect
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+      try {
+        await auth.signInWithEmailAndPassword(email, pass);
+        window.location.href = "TrustWay.html"; // Redirect to Main Page
+      } catch (error) {
+        showStatus('loginMessage', error.message, 'error');
+      }
+    });
+
+    // Signup Redirect
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const pass = document.getElementById('signupPassword').value;
+      try {
+        const res = await auth.createUserWithEmailAndPassword(email, pass);
+        await res.user.updateProfile({ displayName: name });
+        window.location.href = "TrustWay.html"; // Redirect to Main Page
+      } catch (error) {
+        showStatus('signupMessage', error.message, 'error');
+      }
+    });
+
+    function toggleForm() {
+      document.getElementById('mainContainer').classList.toggle('show-signup');
+    }
+</script>
+</body>
+</html>

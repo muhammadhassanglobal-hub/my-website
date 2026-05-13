@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrustWay Maintenance Teams</title>
+    <link rel="icon" type="image/png" href="image/logo1.png">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <style>
+        /* Base Configuration - No External Calls */
+        :root {
+            --tw-dark-blue: #003B5C;
+            --tw-light-blue: #00AEEF;
+            --bg-gray: #f8fafc; 
+            --white: #ffffff;
+            --text-gray: #64748b;
+            --slate-900: #0f172a;
+            --slate-600: #475569;
+            --blue-600: #2563eb;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--slate-900);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Essential Layout Helpers */
+        .max-w-7xl { max-width: 80rem; margin: 0 auto; }
+        .px-4 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .py-24 { padding-top: 6rem; padding-bottom: 6rem; }
+        .text-center { text-align: center; }
+        .flex { display: flex; }
+        .grid { display: grid; }
+        .items-center { align-items: center; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-16 { gap: 4rem; }
+        .gap-40 { gap: 10rem; }
+
+        /* Navbar Styling */
+        .der-navbar {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 95px;
+            display: flex;
+            align-items: center;
+            border-bottom: 4px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .der-nav-container {
+            max-width: 1250px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Logo Section */
+        .der-logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none; 
+            transition: var(--transition);
+        }
+
+        .der-image-container {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 3px solid var(--tw-light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--white);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .der-image-container img {
+            width: 70%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .der-logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .der-brand-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--tw-dark-blue);
+            letter-spacing: -0.5px;
+        }
+
+        .der-brand-name span {
+            color: var(--tw-light-blue);
+        }
+
+        .der-sub-text {
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        /* Nav Menu */
+        .der-nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            list-style: none;
+        }
+
+        /* Nav Links */
+        .der-nav-link, .der-dropdown-trigger {
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--tw-dark-blue);
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+        .der-nav-link:hover, .der-dropdown-trigger:hover {
+            color: var(--tw-light-blue);
+            background: rgba(0, 174, 239, 0.08);
+        }
+
+        /* Dropdown Container */
+        .der-dropdown-container {
+            position: relative;
+        }
+
+        .der-n-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+            color: var(--tw-light-blue);
+        }
+
+        .der-dropdown-container:hover .der-n-arrow {
+            transform: rotate(180deg);
+        }
+
+        .der-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--white);
+            min-width: 240px;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+            list-style: none;
+            padding: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+            z-index: 1100;
+            margin-top: 10px;
+        }
+
+        .der-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 12px;
+            height: 12px;
+            background: var(--white);
+            border-left: 1px solid rgba(0,0,0,0.05);
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .der-dropdown-container:hover .der-dropdown {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .der-dropdown li a {
+            display: block;
+            padding: 12px 16px;
+            color: var(--tw-dark-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .der-dropdown li a:hover {
+            background: var(--tw-light-blue);
+            color: var(--white);
+        }
+
+        /* Auth Button */
+        .der-login-btn {
+            margin-left: 10px;
+            padding: 12px 28px;
+            background-color: var(--white);
+            border: 2px solid var(--tw-dark-blue);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: var(--tw-dark-blue);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 var(--tw-dark-blue);
+            text-transform: uppercase;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .der-login-btn:hover {
+            box-shadow: 0 6px 0 var(--tw-dark-blue);
+            color: var(--tw-light-blue);
+            border-color: var(--tw-light-blue);
+        }
+
+        .der-login-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 var(--tw-dark-blue);
+        }
+
+        /* Mobile View Styles */
+        .der-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+        }
+
+        .der-menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--tw-dark-blue);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        @media (max-width: 992px) {
+            .der-menu-toggle { display: flex; }
+            
+            .der-nav-menu {
+                position: absolute;
+                top: 95px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 10px 0;
+                display: none;
+                border-top: 1px solid #eee;
+                gap: 0;
+                max-height: calc(100vh - 95px);
+                overflow-y: auto;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            }
+
+            .der-nav-menu.der-active { display: flex; }
+            
+            .der-nav-menu li {
+                width: 100%;
+                border-bottom: 1px solid #f1f5f9;
+            }
+
+            .der-nav-link, .der-dropdown-trigger {
+                width: 100%;
+                padding: 18px 24px;
+                border-radius: 0;
+                justify-content: space-between;
+                font-size: 0.95rem;
+            }
+
+            .der-dropdown {
+                position: static;
+                transform: none;
+                width: 100%;
+                opacity: 1;
+                visibility: visible;
+                display: none;
+                box-shadow: none;
+                background: #f8fafc;
+                padding: 0 0 0 20px;
+                border: none;
+                margin-top: 0;
+            }
+
+            .der-dropdown::before { display: none; }
+            
+            .der-dropdown-container.der-mobile-open .der-dropdown { 
+                display: block; 
+            }
+            
+            .der-dropdown-container.der-mobile-open .der-n-arrow {
+                transform: rotate(180deg);
+            }
+
+            .der-login-btn {
+                margin: 20px 24px;
+                display: block;
+                box-shadow: 0 4px 0 var(--tw-dark-blue);
+            }
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .floating { 
+            animation: floating 4s ease-in-out infinite; 
+            transition: transform 0.5s ease;
+        }
+        .floating:hover {
+            transform: scale(1.02) translateY(-15px);
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #0284c7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #0284c7;
+        }
+
+        /* ----------------------------------------- */
+        /* ENHANCED STYLISH HOVER EFFECTS SECTION    */
+        /* ----------------------------------------- */
+
+        /* Hero Buttons Hover */
+        .hero-btn {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        .hero-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(37, 99, 235, 0.35) !important;
+        }
+
+        /* Feature Cards (About Section) */
+        .about-grid { display: flex; flex-direction: row; align-items: center; }
+        .feature-container { display: flex; gap: 1.5rem; margin-top: 2rem; }
+        .feature-card {
+            background: #eff6ff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            flex: 1;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+        .feature-card:hover {
+            transform: translateX(10px) translateY(-5px);
+            background: white;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            border-color: #e2e8f0;
+        }
+        .feature-icon-box {
+            width: 45px; height: 45px;
+            background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            font-size: 1.2rem;
+            transition: all 0.4s ease;
+            color: var(--blue-600);
+        }
+        .feature-card:hover .feature-icon-box {
+            background: var(--blue-600);
+            color: white;
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        /* Service Cards (What We Offer) */
+        .service-card {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(90deg, var(--tw-light-blue), var(--blue-600));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.1);
+            border-color: rgba(37, 99, 235, 0.1);
+        }
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        .service-icon {
+            font-size: 3.5rem; 
+            margin-bottom: 20px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+        }
+        .service-card:hover .service-icon {
+            transform: scale(1.2) rotate(8deg);
+        }
+
+        /* Team Cards (Flip Cards) */
+        .flip-card { 
+            height: 420px; 
+            perspective: 1000px; 
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border-radius: 1.5rem;
+        }
+        .flip-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+        .flip-card-inner {
+            position: relative; width: 100%; height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%;
+            backface-visibility: hidden; border-radius: 1.5rem;
+            overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .flip-card-back {
+            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+            color: white; transform: rotateY(180deg); padding: 2rem;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        /* Stats Section */
+        .stat-box {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: default;
+        }
+        .stat-box:hover {
+            transform: scale(1.15);
+            text-shadow: 0 0 20px rgba(255,255,255,0.6);
+        }
+
+        /* Review Cards */
+        .review-card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.03);
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-bottom: 5px solid transparent;
+            cursor: pointer;
+        }
+        .review-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.08);
+            border-bottom: 5px solid var(--tw-light-blue);
+        }
+
+        /* ----------------------------------------- */
+
+        /* Footer Styles */
+        .footer-container {
+            background: linear-gradient(145deg, #020617, #0f172a);
+            color: var(--white);
+            position: relative;
+            padding-top: clamp(80px, 12vw, 120px);
+            padding-bottom: 30px;
+            box-shadow: inset 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .curve-divider {
+            position: absolute; top: 0; left: 0; width: 100%;
+            line-height: 0; transform: translateY(-1px);
+        }
+
+        .curve-divider svg {
+            display: block; width: 100%; height: clamp(40px, 6vw, 80px);
+            filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.2));
+        }
+
+        .curve-divider .shape-fill { fill: #f8fafc; }
+
+        .logo-button {
+            text-decoration: none; display: flex; align-items: center; gap: 15px;
+            margin-bottom: clamp(30px, 6vw, 50px); padding-left: 25px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; border: none; background: transparent;
+        }
+
+        .logo-img-3d {
+            width: 65px; height: 65px; border-radius: 50%;
+            background: var(--white); border: 3px solid var(--tw-light-blue);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; box-shadow: 0 4px 0 var(--tw-dark-blue), 0 10px 15px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+
+        .logo-img-3d img { width: 75%; height: 75%; object-fit: contain; }
+
+        .logo-text-group {
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
+
+        .logo-3d {
+            font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; color: var(--white);
+            line-height: 1; text-shadow: 0 1px 0 #002b44, 0 2px 0 #002236, 0 3px 0 #001929, 0 4px 0 #00101c, 0 10px 15px rgba(0,0,0,0.6);
+        }
+        
+        .logo-3d span { color: var(--tw-light-blue); }
+
+        .logo-sub-text {
+            font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
+            color: var(--text-gray); font-weight: 700; margin-top: 8px; width: 100%;
+        }
+        
+        .logo-button:hover { transform: translateY(-8px); }
+        .logo-button:hover .logo-img-3d {
+            transform: rotate(-10deg) scale(1.1);
+            box-shadow: 0 8px 0 var(--tw-dark-blue), 0 20px 30px rgba(0,0,0,0.5);
+        }
+        .logo-button:active { transform: translateY(2px); }
+        .logo-button:active .logo-img-3d {
+            box-shadow: 0 2px 0 var(--tw-dark-blue), 0 5px 10px rgba(0,0,0,0.4);
+        }
+
+        .container {
+            width: 90%; max-width: 1200px; margin: 0 auto;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .service-nav {
+            width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px; justify-items: center; margin-bottom: 40px;
+        }
+
+        .service-nav a {
+            position: relative; background: #1e293b; padding: 14px 20px; border-radius: 12px;
+            color: var(--text-gray); font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;
+            box-shadow: 0 5px 0 #020617; text-decoration: none; display: block; width: 100%;
+            max-width: 200px; text-align: center; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .service-nav a:hover {
+            color: var(--tw-light-blue); transform: translateY(-3px);
+            box-shadow: 0 8px 0 #020617; background: #1a2536;
+        }
+
+        .service-nav a:active { transform: translateY(3px); box-shadow: 0 1px 0 #020617; }
+
+        .copyright-container {
+            width: 100%; display: flex; flex-direction: column; align-items: center;
+            margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px;
+        }
+
+        .copyright-box {
+            font-size: 0.8rem; color: #64748b; background: rgba(0,0,0,0.3); padding: 10px 40px;
+            border-radius: 50px; box-shadow: inset 2px 2px 8px rgba(0,0,0,0.4); text-align: center;
+            line-height: 1.6; max-width: 95%;
+        }
+
+        @media (max-width: 992px) {
+            .about-grid { flex-direction: column; gap: 2rem; }
+            .feature-container { flex-direction: column; }
+        }
+        @media (max-width: 768px) {
+            .logo-button { flex-direction: column; padding-left: 0; text-align: center; }
+        }
+        @media (max-width: 600px) {
+            .service-nav { grid-template-columns: 1fr; gap: 12px; }
+            .service-nav a { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="der-navbar">
+        <div class="der-nav-container">
+            
+            <a href="TrustWay.html" class="der-logo-section">
+                <div class="der-image-container">
+                    <img src="image/logo2.png" alt="TrustWay Logo" onerror="this.src='https://via.placeholder.com/50?text=TW'">
+                </div>
+                <div class="der-logo-text">
+                    <span class="der-brand-name">Trust<span>Way</span></span>
+                    <span class="der-sub-text">Maintenance</span>
+                </div>
+            </a>
+
+            <ul class="der-nav-menu" id="navMenu">
+                <li><a href="#" class="der-nav-link">Home</a></li>
+                
+                <li class="der-dropdown-container" id="servicesDropdown">
+                    <button class="der-dropdown-trigger">
+                        Services <span class="der-n-arrow">▼</span>
+                    </button>
+                    <ul class="der-dropdown">
+                       <li><a href="HVAC.html">HVAC</a></li>
+                       
+                        <li><a href="Appliance.html">Appliance</a></li>
+                        <li><a href="Window.html">Window Installation</a></li>
+                        
+                        <li><a href="Handyman.html">Handyman</a></li>
+                        <li><a href="Plumber.html">Plumber</a></li>
+                    </ul>
+                </li>
+
+               <li><a href="Reviews.html" class="der-nav-link">Trusted Reviews</a></li>
+                <li><a href="Team.html" class="der-nav-link">Meet The Team</a></li>
+                <li><a href="Login.html" class="der-login-btn" id="userAuthBtn">Login</a></li>
+            </ul>
+
+            <button class="der-menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="reveal" style="padding: 60px 20px; background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%); min-height: 90vh; display: flex; align-items: center;">
+        <div class="max-w-7xl flex items-center gap-40" style="flex-wrap: wrap; width: 100%;">
+            <div style="flex: 1; min-width: 300px;">
+                <span style="background: #e0f2fe; color: #0369a1; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 0.8rem;">✓ Trusted by 10,000+ Families</span>
+                <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin: 20px 0; line-height: 1.1;">Full Care for Your <span class="gradient-text">Dream Home</span></h1>
+                <p style="color: var(--slate-600); font-size: 1.2rem; margin-bottom: 35px;">We provide premium home maintenance from expert plumbing to professional electrical solutions.</p>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a href="#services" class="hero-btn" style="background: var(--blue-600); color: white; padding: 18px 35px; border-radius: 12px; text-decoration: none; font-weight: bold; box-shadow: 0 10px 15px rgba(37, 99, 235, 0.2);">View Services →</a>
+                    <a href="#team" class="hero-btn" style="background: var(--blue-600); color: white; padding: 18px 35px; border-radius: 12px; text-decoration: none; font-weight: bold; box-shadow: 0 10px 15px rgba(37, 99, 235, 0.2);">Our Team</a>
+                </div>
+            </div>
+            <div style="flex: 1.4; min-width: 350px;" class="floating">
+                <img src="https://images.stockcake.com/public/d/9/6/d96c8498-a0cc-404c-b7ee-a1b2f80c2c87_large/electrician-at-work-stockcake.jpg" 
+                     alt="Expert Work" style="width: 100%; height: auto; min-height: 500px; object-fit: cover; border-radius: 4rem; box-shadow: 0 40px 80px rgba(0,0,0,0.18);">
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Excellence Section -->
+    <section id="about" class="py-24 reveal" style="background: white;">
+        <div class="max-w-7xl px-4">
+            <div class="about-grid gap-16">
+                <!-- Left: Image Section -->
+                <div style="flex: 1; position: relative; width: 100%;">
+                    <img src="https://images.stockcake.com/public/8/e/3/8e3d6f3a-a7ca-4835-abe2-00e1fc1d15c7_large/electrician-fixing-panel-stockcake.jpg" 
+                         alt="Maintenance Work" style="width: 100%; display: block; border-radius: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                </div>
+                
+                <!-- Right: Content Section -->
+                <div style="flex: 1.2; width: 100%;">
+                    <p style="color: var(--blue-600); font-weight: 800; font-size: 0.85rem; letter-spacing: 0.15rem; margin-bottom: 1rem; text-transform: uppercase;">Professional Excellence</p>
+                    <h2 style="font-size: 2.8rem; font-weight: 900; color: var(--slate-900); line-height: 1.2; margin-bottom: 1.5rem;">Your Reliable Partner in Home Maintenance</h2>
+                    <p style="color: var(--slate-600); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                        Since 2015, TrustWay has been providing premium home solutions to thousands of families. We understand that your home is your sanctuary, which is why we only employ the most skilled professionals.
+                    </p>
+                    
+                    <!-- Features Row -->
+                    <div class="feature-container">
+                        <!-- Feature 1 -->
+                        <div class="feature-card">
+                            <div class="feature-icon-box">🕒</div>
+                            <div>
+                                <h4 style="font-weight: 800; color: var(--slate-900); margin-bottom: 5px;">On-Time Service</h4>
+                                <p style="font-size: 0.85rem; color: var(--slate-600);">We value your time and always arrive promptly.</p>
+                            </div>
+                        </div>
+                        <!-- Feature 2 -->
+                        <div class="feature-card">
+                            <div class="feature-icon-box">💰</div>
+                            <div>
+                                <h4 style="font-weight: 800; color: var(--slate-900); margin-bottom: 5px;">Fair Pricing</h4>
+                                <p style="font-size: 0.85rem; color: var(--slate-600);">Transparent quotes with no hidden charges.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section (12 Services) -->
+    <section id="services" class="py-24 reveal" style="background: #f1f5f9;">
+        <div class="max-w-7xl px-4 text-center">
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 60px;">What We Offer (12 Services)</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+                <!-- 1 -->
+                <div class="service-card">
+                    <div class="service-icon">🧹</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">Deep Cleaning</h3>
+                    <p style="color: var(--slate-600);">Full home sanitization, carpet cleaning, and window scrubbing by pros.</p>
+                </div>
+                <!-- 2 -->
+                <div class="service-card">
+                    <div class="service-icon">🚰</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">Plumbing Fixes</h3>
+                    <p style="color: var(--slate-600);">Emergency leak repairs, pipe installations, and water heater service.</p>
+                </div>
+                <!-- 3 -->
+                <div class="service-card">
+                    <div class="service-icon">⚡</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">Electrical Help</h3>
+                    <p style="color: var(--slate-600);">Certified electricians for wiring, panel upgrades, and lighting setup.</p>
+                </div>
+                <!-- 4 -->
+                <div class="service-card">
+                    <div class="service-icon">❄️</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">HVAC Systems</h3>
+                    <p style="color: var(--slate-600);">Air conditioning and heating repair, installation, and seasonal maintenance.</p>
+                </div>
+                <!-- 5 -->
+                <div class="service-card">
+                    <div class="service-icon">🪟</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">Window Setup</h3>
+                    <p style="color: var(--slate-600);">Energy-efficient window installations, glass replacements, and sealing.</p>
+                </div>
+                <!-- 6 -->
+                <div class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">Roofing Services</h3>
+                    <p style="color: var(--slate-600);">Roof leak repairs, shingle replacement, and complete roof inspections.</p>
+                </div>
+                <!-- 7 -->
+                <div class="service-card">
+                    <div class="service-icon">🔧</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">Appliance Repair</h3>
+                    <p style="color: var(--slate-600);">Fixing refrigerators, ovens, washing machines, and household electronics.</p>
+                </div>
+                <!-- 8 -->
+                <div class="service-card">
+                    <div class="service-icon">🛠️</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">General Handyman</h3>
+                    <p style="color: var(--slate-600);">Drywall patching, furniture assembly, TV mounting, and minor fixes.</p>
+                </div>
+                <!-- 9 -->
+                <div class="service-card">
+                    <div class="service-icon">🔑</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">Locksmith</h3>
+                    <p style="color: var(--slate-600);">Emergency lockouts, deadbolt installations, and smart lock setups.</p>
+                </div>
+                <!-- 10 -->
+                <div class="service-card">
+                    <div class="service-icon">🎨</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">Painting</h3>
+                    <p style="color: var(--slate-600);">Interior and exterior painting, wallpaper removal, and deck staining.</p>
+                </div>
+                <!-- 11 -->
+                <div class="service-card">
+                    <div class="service-icon">🐜</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">Pest Control</h3>
+                    <p style="color: var(--slate-600);">Safe extermination and prevention of ants, rodents, termites, and more.</p>
+                </div>
+                <!-- 12 -->
+                <div class="service-card">
+                    <div class="service-icon">🌳</div>
+                    <h3 style="font-weight: 800; margin-bottom: 15px;">Landscaping</h3>
+                    <p style="color: var(--slate-600);">Lawn maintenance, tree trimming, irrigation systems, and garden design.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section (16 Members) -->
+    <section id="team" class="py-24 reveal" style="background: white;">
+        <div class="max-w-7xl px-4 text-center">
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 60px;">Meet Our Master Craftsmen (16 Members)</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+                <!-- Member 1 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a?auto=format&fit=crop&q=80&w=400" alt="David" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>David Miller</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Master Plumber</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>12+ Years Exp.</h3><p>Specialized in tankless heaters. Licensed & Insured.</p></div>
+                    </div>
+                </div>
+                <!-- Member 2 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&q=80&w=400" alt="James" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>James Wilson</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Sr. Electrician</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Safety Expert</h3><p>Smart home wiring and panel specialist.</p></div>
+                    </div>
+                </div>
+                <!-- Member 3 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&q=80&w=400" alt="Maria" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Maria Garcia</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Lead Cleaning Pro</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Detail Focused</h3><p>Hygiene specialist using eco-friendly materials.</p></div>
+                    </div>
+                </div>
+                <!-- Member 4 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Alex" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Alex Reed</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Multi-Handyman</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Problem Solver</h3><p>Drywall repair and furniture assembly expert.</p></div>
+                    </div>
+                </div>
+                <!-- Member 5 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400" alt="Sarah" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Sarah Jenkins</h4><p style="color: var(--blue-600); font-size: 0.8rem;">HVAC Technician</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Climate Expert</h3><p>Keeps your home perfectly cooled and heated all year.</p></div>
+                    </div>
+                </div>
+                <!-- Member 6 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400" alt="Michael" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Michael Chang</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Master Locksmith</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Security First</h3><p>Expert in traditional and modern smart lock systems.</p></div>
+                    </div>
+                </div>
+                <!-- Member 7 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400" alt="Emily" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Emily Davis</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Lead Painter</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Color Specialist</h3><p>Flawless finishes and excellent color consultation.</p></div>
+                    </div>
+                </div>
+                <!-- Member 8 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400" alt="Robert" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Robert Fox</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Roofing Specialist</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>15+ Years Exp.</h3><p>Ensuring you have a safe and leak-free roof overhead.</p></div>
+                    </div>
+                </div>
+                <!-- Member 9 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400" alt="Jessica" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Jessica Taylor</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Appliance Tech</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Gadget Guru</h3><p>Fixes any major household appliance efficiently.</p></div>
+                    </div>
+                </div>
+                <!-- Member 10 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400" alt="William" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>William Brown</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Window Installer</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Precision Fitter</h3><p>Improves your home's energy efficiency and view.</p></div>
+                    </div>
+                </div>
+                <!-- Member 11 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://static.vecteezy.com/system/resources/thumbnails/007/421/470/small/handsome-cheerful-bearded-man-smiles-gladfully-dressed-in-casual-white-t-shirt-being-in-good-mood-poses-against-blue-background-with-copy-space-glad-european-guy-with-stubble-stands-indoor-free-photo.jpg" alt="Thomas" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Thomas Edison</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Electrician II</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Lighting Expert</h3><p>Custom lighting designs and energy audits.</p></div>
+                    </div>
+                </div>
+                <!-- Member 12 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400" alt="Olivia" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Olivia Smith</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Pest Control Pro</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Eco-Friendly</h3><p>Keeps critters away using safe, non-toxic methods.</p></div>
+                    </div>
+                </div>
+                <!-- Member 13 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=400" alt="Daniel" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Daniel Craig</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Master Landscaper</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Green Thumb</h3><p>Transforms any backyard into a gorgeous oasis.</p></div>
+                    </div>
+                </div>
+                <!-- Member 14 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400" alt="Sophia" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Sophia Martinez</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Plumbing Specialist</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Pipe Whisperer</h3><p>Fast and effective drain and sewer line solutions.</p></div>
+                    </div>
+                </div>
+                <!-- Member 15 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400" alt="Matthew" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Matthew Anderson</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Master Carpenter</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Woodwork Pro</h3><p>Custom cabinetry, decking, and wood repairs.</p></div>
+                    </div>
+                </div>
+                <!-- Member 16 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&q=80&w=400" alt="Isabella" style="width: 100%; height: 75%; object-fit: cover;">
+                            <div style="padding: 15px;"><h4>Isabella Moore</h4><p style="color: var(--blue-600); font-size: 0.8rem;">Sr. Cleaner</p></div>
+                        </div>
+                        <div class="flip-card-back"><h3>Spotless Record</h3><p>Expert in move-in/move-out deep cleanings.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section with Running Numbers -->
+    <section class="py-20 reveal" style="background: var(--blue-600); color: white;">
+        <div class="max-w-7xl px-4">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 40px; text-align: center;">
+                <div class="stat-box"><div class="stat-number" data-target="12" data-suffix="k+" style="font-size: 3.5rem; font-weight: 900;">0</div><div style="opacity: 0.8;">Homes Serviced</div></div>
+                <div class="stat-box"><div class="stat-number" data-target="98" data-suffix="%" style="font-size: 3.5rem; font-weight: 900;">0</div><div style="opacity: 0.8;">Happy Clients</div></div>
+                <div class="stat-box"><div class="stat-number" data-target="150" data-suffix="+" style="font-size: 3.5rem; font-weight: 900;">0</div><div style="opacity: 0.8;">Expert Staff</div></div>
+                <div class="stat-box"><div class="stat-number" data-target="24" data-suffix="/7" style="font-size: 3.5rem; font-weight: 900;">0</div><div style="opacity: 0.8;">Active Support</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section (9 Reviews) -->
+    <section id="reviews" class="py-24 reveal" style="background: #f8fafc;">
+        <div class="max-w-7xl px-4 text-center">
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 60px;">Voices of Satisfaction (9 Reviews)</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <!-- Review 1 -->
+                <div class="review-card">
+                    <div style="color: #fbbf24; margin-bottom: 15px;">★★★★★</div>
+                    <p style="color: var(--slate-600); margin-bottom: 25px;">"The team arrived on time and worked tirelessly. My house hasn't looked this good in years!"</p>
+                    <div style="font-weight: bold;">Linda Thompson</div>
+                </div>
+                <!-- Review 2 -->
+                <div class="review-card">
+                    <div style="color: #fbbf24; margin-bottom: 15px;">★★★★★</div>
+                    <p style="color: var(--slate-600); margin-bottom: 25px;">"Had a plumbing emergency on Sunday. TrustWay sent someone in 45 mins. Truly lifesavers."</p>
+                    <div style="font-weight: bold;">Michael Cheng</div>
+                </div>
+                <!-- Review 3 -->
+                <div class="review-card">
+                    <div style="color: #fbbf24; margin-bottom: 15px;">★★★★★</div>
+                    <p style="color: var(--slate-600); margin-bottom: 25px;">"Fair pricing and professional service. We use them for all our monthly maintenance now."</p>
+                    <div style="font-weight: bold;">Kevin Patel</div>
+                </div>
+                <!-- Review 4 -->
+                <div class="review-card">
+                    <div style="color: #fbbf24; margin-bottom: 15px;">★★★★★</div>
+                    <p style="color: var(--slate-600); margin-bottom: 25px;">"The electrician they sent was very knowledgeable. Upgraded our panel without any hassle."</p>
+                    <div style="font-weight: bold;">Sarah Williams</div>
+                </div>
+                <!-- Review 5 -->
+                <div class="review-card">
+                    <div style="color: #fbbf24; margin-bottom: 15px;">★★★★★</div>
+                    <p style="color: var(--slate-600); margin-bottom: 25px;">"Our AC broke during the hottest week of summer. TrustWay had it running the same day!"</p>
+                    <div style="font-weight: bold;">John Doe</div>
+                </div>
+                <!-- Review 6 -->
+                <div class="review-card">
+                    <div style="color: #fbbf24; margin-bottom: 15px;">★★★★★</div>
+                    <p style="color: var(--slate-600); margin-bottom: 25px;">"Painted our entire downstairs in two days. Flawless edges and great cleanup afterwards."</p>
+                    <div style="font-weight: bold;">Emily Chen</div>
+                </div>
+                <!-- Review 7 -->
+                <div class="review-card">
+                    <div style="color: #fbbf24; margin-bottom: 15px;">★★★★★</div>
+                    <p style="color: var(--slate-600); margin-bottom: 25px;">"Called for pest control and they were very thorough. Haven't seen an ant since."</p>
+                    <div style="font-weight: bold;">Robert Johnson</div>
+                </div>
+                <!-- Review 8 -->
+                <div class="review-card">
+                    <div style="color: #fbbf24; margin-bottom: 15px;">★★★★★</div>
+                    <p style="color: var(--slate-600); margin-bottom: 25px;">"Fixed my washer and dryer for a fraction of what a replacement would cost. Very honest!"</p>
+                    <div style="font-weight: bold;">Amanda Smith</div>
+                </div>
+                <!-- Review 9 -->
+                <div class="review-card">
+                    <div style="color: #fbbf24; margin-bottom: 15px;">★★★★★</div>
+                    <p style="color: var(--slate-600); margin-bottom: 25px;">"The landscaping crew transformed my yard. The new lawn and flowerbeds look incredible."</p>
+                    <div style="font-weight: bold;">Chris Evans</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D Minimal Branded Footer -->
+    <footer class="footer-container">
+        <!-- Curve Divider -->
+        <div class="curve-divider">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path class="shape-fill" d="M0,32L60,42.7C120,53,240,75,360,80C480,85,600,75,720,58.7C840,43,960,21,1080,16C1200,11,1320,21,1380,26.7L1440,32V0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+            </svg>
+        </div>
+
+        <div class="container">
+            <!-- TrustWay Branded 3D Logo Section acting as a Button -->
+            <a href="TrustWay.html" class="logo-button">
+                <div class="logo-img-3d">
+                    <img src="image/logo2.png" alt="TrustWay Logo" onerror="this.src='https://via.placeholder.com/50?text=TW'">
+                </div>
+                <div class="logo-text-group">
+                    <div class="logo-3d">Trust<span>Way</span></div>
+                    <div class="logo-sub-text">Maintenance</div>
+                </div>
+            </a>
+
+            <!-- Services Navigation -->
+              <nav class="service-nav">
+                <a href="Plumber.html">Plumber Service</a>
+                <a href="Handyman.html">Handyman</a>
+                <a href="HVAC.html">HVAC Installation</a>
+               <a href="Appliance.html">Appliance</a>
+                <a href="Window.html">Window Installation</a>
+            </nav>
+
+            <div class="copyright-container">
+                <div class="copyright-box">
+                    <div>&copy; 2026 TrustWay Maintenance</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Numbers Run Animation Logic
+        const counterStats = document.querySelectorAll('.stat-number');
+
+        const runNumbers = (element) => {
+            const target = parseInt(element.getAttribute('data-target'));
+            const suffix = element.getAttribute('data-suffix');
+            let count = 0;
+            const speed = target / 50; 
+
+            const update = () => {
+                if (count < target) {
+                    count += speed;
+                    element.innerText = Math.ceil(count) + suffix;
+                    setTimeout(update, 30);
+                } else {
+                    element.innerText = target + suffix;
+                }
+            }
+            update();
+        };
+
+        // Scroll Observer for triggering number animation
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    runNumbers(entry.target);
+                    statObserver.unobserve(entry.target); 
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counterStats.forEach(stat => statObserver.observe(stat));
+
+        // --- UI Interactions ---
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        const servicesDropdown = document.getElementById('servicesDropdown');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('der-active');
+            const spans = menuToggle.getElementsByTagName('span');
+            if(navMenu.classList.contains('der-active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        // Toggle dropdown on click for mobile
+        servicesDropdown.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992) {
+                const trigger = e.target.closest('.der-dropdown-trigger');
+                if (trigger) {
+                    e.preventDefault();
+                    servicesDropdown.classList.toggle('der-mobile-open');
+                }
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992) {
+                navMenu.classList.remove('der-active');
+                servicesDropdown.classList.remove('der-mobile-open');
+            }
+        });
+
+        // --- Firebase Configuration & Auth Logic ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5fBfvrtbcDUJTdP5-jc9adfxJWc53n94",
+            authDomain: "auth-d7f3a.firebaseapp.com",
+            projectId: "auth-d7f3a",
+            storageBucket: "auth-d7f3a.firebasestorage.app",
+            messagingSenderId: "200460928170",
+            appId: "1:200460928170:web:923331402c31bda2a3bcd3"
+        };
+
+        // Initialize Firebase safely
+        if (typeof firebase !== 'undefined') {
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+
+            auth.onAuthStateChanged((user) => {
+                const authBtn = document.getElementById('userAuthBtn');
+                if (user) {
+                    authBtn.textContent = "LOGOUT";
+                    authBtn.href = "javascript:void(0)";
+                    authBtn.onclick = function() {
+                        auth.signOut().then(() => {
+                            window.location.href = "Login.html";
+                        });
+                    };
+                } else {
+                    authBtn.textContent = "LOGIN";
+                    authBtn.href = "Login.html";
+                    authBtn.onclick = null;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

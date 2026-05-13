@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrustWay Maintenance Reviews</title>
+    <link rel="icon" type="image/png" href="image/logo1.png">
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+    <style>
+        /* --- Mukhya Styles --- */
+        :root {
+            --tw-dark-blue: #003B5C;
+            --tw-light-blue: #00AEEF;
+            --bg-gray: #e2e8f0; 
+            --white: #ffffff;
+            --text-gray: #64748b;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --ease-transition: all 0.4s ease;
+            
+            --primary: #1e3a8a;
+            --secondary: #0f172a;
+            --accent: #eab308;
+            --text-main: #1e293b;
+            --bg-light: #f8fafc;
+            --speed: 0.4s;
+            --bg-deep: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* Darek section mate hover transition */
+        .hover-section {
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
+        }
+        
+        .hover-section:hover {
+            background-color: #f1f5f9;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.02);
+        }
+
+        /* Navbar Styling */
+        .der-navbar {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 95px;
+            display: flex;
+            align-items: center;
+            border-bottom: 4px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .der-nav-container {
+            max-width: 1250px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Logo Section */
+        .der-logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none; 
+            transition: var(--transition);
+        }
+
+        .der-image-container {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 3px solid var(--tw-light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--white);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .der-image-container img {
+            width: 70%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .der-logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .der-brand-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--tw-dark-blue);
+            letter-spacing: -0.5px;
+        }
+
+        .der-brand-name span {
+            color: var(--tw-light-blue);
+        }
+
+        .der-sub-text {
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        /* Nav Menu */
+        .der-nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            list-style: none;
+        }
+
+        /* Nav Links */
+        .der-nav-link, .der-dropdown-trigger {
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--tw-dark-blue);
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+        .der-nav-link:hover, .der-dropdown-trigger:hover {
+            color: var(--tw-light-blue);
+            background: rgba(0, 174, 239, 0.08);
+        }
+
+        /* Dropdown Container */
+        .der-dropdown-container {
+            position: relative;
+        }
+
+        .der-n-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+            color: var(--tw-light-blue);
+        }
+
+        .der-dropdown-container:hover .der-n-arrow {
+            transform: rotate(180deg);
+        }
+
+        .der-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--white);
+            min-width: 240px;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+            list-style: none;
+            padding: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+            z-index: 1100;
+            margin-top: 10px;
+        }
+
+        .der-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 12px;
+            height: 12px;
+            background: var(--white);
+            border-left: 1px solid rgba(0,0,0,0.05);
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .der-dropdown-container:hover .der-dropdown {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .der-dropdown li a {
+            display: block;
+            padding: 12px 16px;
+            color: var(--tw-dark-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .der-dropdown li a:hover {
+            background: var(--tw-light-blue);
+            color: var(--white);
+        }
+
+        /* Auth Button */
+        .der-login-btn {
+            margin-left: 10px;
+            padding: 12px 28px;
+            background-color: var(--white);
+            border: 2px solid var(--tw-dark-blue);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: var(--tw-dark-blue);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 var(--tw-dark-blue);
+            text-transform: uppercase;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .der-login-btn:hover {
+            box-shadow: 0 6px 0 var(--tw-dark-blue);
+            color: var(--tw-light-blue);
+            border-color: var(--tw-light-blue);
+        }
+
+        .der-login-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 var(--tw-dark-blue);
+        }
+
+        /* Mobile View Styles */
+        .der-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+        }
+
+        .der-menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--tw-dark-blue);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        @media (max-width: 992px) {
+            .der-menu-toggle { display: flex; }
+            
+            .der-nav-menu {
+                position: absolute;
+                top: 95px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 10px 0;
+                display: none;
+                border-top: 1px solid #eee;
+                gap: 0;
+                max-height: calc(100vh - 95px);
+                overflow-y: auto;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            }
+
+            .der-nav-menu.der-active { display: flex; }
+            
+            .der-nav-menu li {
+                width: 100%;
+                border-bottom: 1px solid #f1f5f9;
+            }
+
+            .der-nav-link, .der-dropdown-trigger {
+                width: 100%;
+                padding: 18px 24px;
+                border-radius: 0;
+                justify-content: space-between;
+                font-size: 0.95rem;
+            }
+
+            .der-dropdown {
+                position: static;
+                transform: none;
+                width: 100%;
+                opacity: 1;
+                visibility: visible;
+                display: none;
+                box-shadow: none;
+                background: #f8fafc;
+                padding: 0 0 0 20px;
+                border: none;
+                margin-top: 0;
+            }
+
+            .der-dropdown::before { display: none; }
+            
+            .der-dropdown-container.der-mobile-open .der-dropdown { 
+                display: block; 
+            }
+            
+            .der-dropdown-container.der-mobile-open .der-n-arrow {
+                transform: rotate(180deg);
+            }
+
+            .der-login-btn {
+                margin: 20px 24px;
+                display: block;
+                box-shadow: 0 4px 0 var(--tw-dark-blue);
+            }
+        }
+
+        /* Footer Branded Styling */
+        .footer-containerfoofon {
+            background: linear-gradient(145deg, #020617, #0f172a);
+            color: var(--white);
+            position: relative;
+            padding-top: clamp(80px, 12vw, 120px);
+            padding-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .curve-dividerfoofon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            line-height: 0;
+            transform: translateY(-1px);
+        }
+
+        .curve-dividerfoofon svg {
+            display: block;
+            width: 100%;
+            height: clamp(40px, 6vw, 80px);
+        }
+
+        .curve-dividerfoofon .shape-fillfoofon {
+            fill: #f1f5f9;
+        }
+
+        .logo-buttonfoofon {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: clamp(30px, 6vw, 50px);
+            transition: all 0.3s ease;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .logo-img-3dfoofon {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 3px solid var(--tw-light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 4px 0 var(--tw-dark-blue), 0 10px 15px rgba(0,0,0,0.4);
+        }
+
+        .logo-img-3dfoofon img {
+            width: 75%;
+            height: 75%;
+            object-fit: contain;
+        }
+
+        .logo-text-groupfoofon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo-3dfoofon {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1;
+            text-shadow: 0 4px 0 #00101c, 0 10px 15px rgba(0,0,0,0.6);
+        }
+        
+        .logo-3dfoofon span { color: var(--tw-light-blue); }
+
+        .logo-sub-textfoofon {
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .service-navfoofon {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+	        padding: 0 15px;
+        }
+
+        .service-navfoofon a {
+            background: #1e293b;
+            padding: 14px;
+            border-radius: 12px;
+            color: var(--text-gray);
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 5px 0 #020617;
+            transition: all 0.2s;
+            word-break: break-word;
+            font-size: 0.85rem;
+        }
+
+        .service-navfoofon a:hover {
+            color: var(--tw-light-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #020617;
+        }
+
+        .copyright-containerfoofon {
+            width: 100%;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+
+        .copyright-boxfoofon {
+            font-size: 0.8rem;
+            color: #64748b;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 40px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .service-navfoofon { grid-template-columns: 1fr; gap: 15px; }
+            .logo-buttonfoofon { flex-direction: column; text-align: center; }
+            .logo-text-groupfoofon { align-items: center; }
+            .copyright-boxfoofon { padding: 10px 20px; font-size: 0.7rem; }
+        }
+
+        /* --- Mukhya Content Styles --- */
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .text-center { text-align: center; }
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+        .hidden { display: none; }
+
+        @media (min-width: 768px) { .md-block { display: block; } }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Aakarshak Hero Section */
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 58, 138, 0.8) 50%, rgba(30, 64, 175, 0.85) 100%), 
+                        url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: calc(100vh - 95px);
+            padding: 5rem 0;
+            display: flex;
+            align-items: center;
+            overflow: hidden; 
+            position: relative;
+        }
+
+        /* Animated Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: floatOrb 10s infinite ease-in-out alternate;
+            opacity: 0.5;
+            transition: var(--ease-transition);
+        }
+        .hero-gradient:hover .orb-1 { transform: scale(1.3) translate(20px, -20px); opacity: 0.7; }
+        .hero-gradient:hover .orb-2 { transform: scale(1.3) translate(-20px, 20px); opacity: 0.7; }
+        
+        .orb-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: #60a5fa; animation-delay: 0s; }
+        .orb-2 { bottom: -10%; right: -10%; width: 400px; height: 400px; background: #eab308; animation-delay: -5s; }
+        
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.2); }
+        }
+
+        /* Hero Flip Card Styles */
+        .hero-flip-container {
+            perspective: 1000px;
+            display: inline-block;
+            width: 320px;
+            height: 280px;
+            z-index: 20;
+        }
+        
+        .hero-flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        
+        .hero-flip-container:hover .hero-flip-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .hero-flip-front, .hero-flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            color: white;
+        }
+        
+        .hero-flip-front {
+            gap: 1rem;
+        }
+        
+        .hero-flip-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.95), rgba(15, 23, 42, 0.95));
+            border: 2px solid var(--tw-light-blue);
+            box-shadow: 0 15px 40px 0 rgba(0, 174, 239, 0.4);
+        }
+
+        .floating { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+
+        .hero-title {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-weight: 800; 
+            line-height: 1.1; 
+            margin-bottom: 1.5rem; 
+            color: white;
+            text-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+            transition: var(--transition);
+        }
+        
+        .hero-gradient:hover .hero-title {
+            transform: scale(1.02);
+            text-shadow: 4px 8px 15px rgba(0,0,0,0.6);
+        }
+
+        .hero-subtitle { 
+            font-size: clamp(1rem, 2vw, 1.25rem); 
+            color: #e2e8f0; 
+            max-width: 48rem; 
+            margin: 0 auto 3rem; 
+            font-weight: 400; 
+            text-shadow: 1px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .stats-section { padding: 4rem 0; border-bottom: 1px solid #e2e8f0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        @media (min-width: 1024px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+        
+        .stat-item {
+            transition: var(--transition);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 0; height: 0;
+            background: radial-gradient(circle, rgba(0,174,239,0.1) 0%, rgba(0,0,0,0) 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        .stat-item:hover::before { width: 300px; height: 300px; }
+        
+        .stat-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            background-color: var(--white);
+            box-shadow: 0 20px 35px -5px rgba(0, 174, 239, 0.15);
+            border-bottom: 3px solid var(--tw-light-blue);
+        }
+
+        .stat-val { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; color: var(--secondary); transition: var(--transition); }
+        .stat-item:hover .stat-val { color: var(--tw-light-blue); transform: scale(1.1); text-shadow: 0 4px 10px rgba(0,174,239,0.2); }
+        .stat-label { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.875rem; color: #64748b; font-weight: 600; transition: var(--transition); }
+        .stat-item:hover .stat-label { color: var(--tw-dark-blue); }
+
+        .slider-section { padding: 6rem 0; background: white; }
+        .slider-container { overflow: hidden; position: relative; width: 100%; border-radius: 3rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); transition: var(--transition); border: 1px solid transparent; }
+        .slider-container:hover { box-shadow: 0 40px 70px -15px rgba(0, 174, 239, 0.2); border-color: rgba(0, 174, 239, 0.2); transform: translateY(-5px); }
+        
+        .slider-track { display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); width: 100%; }
+        .slide { min-width: 100%; background: white; }
+        .slide-content { display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 3rem 1.5rem; transition: var(--transition); }
+        @media (min-width: 768px) { .slide-content { flex-direction: row; padding: 5rem; gap: 4rem; } }
+        
+        .slide-img { width: 12rem; height: 12rem; border-radius: 1.5rem; object-fit: cover; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); flex-shrink: 0; filter: grayscale(40%); transition: var(--transition); }
+        .slide-content:hover .slide-img { transform: scale(1.1) rotate(0deg) !important; box-shadow: 0 30px 40px rgba(0,174,239,0.3); filter: grayscale(0%); border: 3px solid var(--white); }
+        
+        .quote-icon { width: 3.5rem; height: 3.5rem; fill: #e2e8f0; margin-bottom: 1.5rem; transition: var(--transition); }
+        .slide-content:hover .quote-icon { fill: var(--tw-light-blue); transform: scale(1.2) rotate(-10deg); filter: drop-shadow(0 5px 10px rgba(0,174,239,0.4)); }
+
+        .slider-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--secondary); color: white; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; z-index: 10; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .slider-nav:hover { background: var(--accent); color: var(--secondary); transform: translateY(-50%) scale(1.2); box-shadow: 0 10px 20px rgba(234, 179, 8, 0.4); }
+
+        .flip-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; padding: 4rem 0; }
+        @media (min-width: 768px) { .flip-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .flip-grid { grid-template-columns: repeat(3, 1fr); } }
+        .flip-card { perspective: 1000px; height: 350px; cursor: pointer; border-radius: 2rem; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
+        
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg) scale(1.05); }
+        
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2.5rem; transition: var(--ease-transition); }
+        .flip-card-front { background: white; border: 1px solid #f1f5f9; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.05); }
+        .flip-card-back { background: linear-gradient(135deg, var(--primary), var(--tw-dark-blue)); color: white; transform: rotateY(180deg); text-align: center; box-shadow: 0 20px 40px rgba(30,58,138,0.4); border: 2px solid rgba(255,255,255,0.1); }
+        
+        .flip-card:hover .flip-card-front { box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+        .reviews-section { padding: 6rem 0; background: white; }
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        
+        .review-card { background: white; padding: 2.5rem; border-radius: 2rem; border: 1px solid #f1f5f9; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; position: relative; overflow: hidden; z-index: 1; }
+        .review-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,174,239,0.05) 0%, rgba(255,255,255,0) 100%); transform: translateY(-100%); transition: transform 0.5s ease; z-index: -1;
+        }
+        .review-card::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--tw-light-blue); transform: scaleX(0); transition: transform 0.5s ease; transform-origin: center;
+        }
+        
+        .review-card:hover { transform: translateY(-12px) scale(1.02); box-shadow: 0 30px 50px -10px rgba(0, 174, 239, 0.15); border-color: rgba(0, 174, 239, 0.1); }
+        .review-card:hover::before { transform: translateY(0); }
+        .review-card:hover::after { transform: scaleX(1); }
+        
+        .review-avatar { width: 3.5rem; height: 3.5rem; border-radius: 1rem; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--primary); transition: var(--transition); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .review-card:hover .review-avatar { background: var(--tw-light-blue); color: white; transform: rotate(10deg) scale(1.15); box-shadow: 0 10px 15px rgba(0,174,239,0.3); }
+
+        .star-svg, .star-small { width: 1.5rem; height: 1.5rem; fill: var(--accent); transition: var(--ease-transition); }
+        .star-small { width: 1rem; height: 1rem; }
+        .review-card:hover .star-small { transform: scale(1.2) rotate(15deg); filter: drop-shadow(0 2px 4px rgba(234, 179, 8, 0.4)); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Top Navbar -->
+    <nav class="der-navbar">
+        <div class="der-nav-container">
+            
+            <a href="TrustWay.html" class="der-logo-section">
+                <div class="der-image-container">
+                    <img src="image/logo2.png" alt="TrustWay Logo" onerror="this.src='https://via.placeholder.com/50?text=TW'">
+                </div>
+                <div class="der-logo-text">
+                    <span class="der-brand-name">Trust<span>Way</span></span>
+                    <span class="der-sub-text">Maintenance</span>
+                </div>
+            </a>
+
+            <ul class="der-nav-menu" id="navMenu">
+                <li><a href="#" class="der-nav-link">Home</a></li>
+                
+                <li class="der-dropdown-container" id="servicesDropdown">
+                    <button class="der-dropdown-trigger">
+                        Services <span class="der-n-arrow">▼</span>
+                    </button>
+                    <ul class="der-dropdown">
+                        <li><a href="HVAC.html">HVAC</a></li>
+                       
+                        <li><a href="Appliance.html">Appliance</a></li>
+                        <li><a href="Window.html">Window Installation</a></li>
+                        
+                        <li><a href="Handyman.html">Handyman</a></li>
+                        <li><a href="Plumber.html">Plumber</a></li>
+                    </ul>
+                </li>
+
+               <li><a href="Reviews.html" class="der-nav-link">Trusted Reviews</a></li>
+                <li><a href="Team.html" class="der-nav-link">Meet The Team</a></li>
+                <li><a href="Login.html" class="der-login-btn" id="userAuthBtn">Log In</a></li>
+            </ul>
+
+            <button class="der-menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Attractive Hero Section with Flip Card -->
+    <header class="relative hero-gradient hover-section">
+        <div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+        </div>
+
+        <div class="container relative z-10 flex flex-col items-center">
+            <div class="reveal glass-card" style="padding: 0.5rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; color: white;">
+                <span style="width: 8px; height: 8px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 10px #4ade80;"></span>
+                <span style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Trusted by 25k+ US Families</span>
+            </div>
+
+            <div class="text-center">
+                <h1 class="hero-title reveal">
+                    Trust That <br class="md-block"> <span style="color: var(--accent);">Transforms</span> Your Home
+                </h1>
+                <p class="hero-subtitle reveal">
+                    We don't just provide services; we provide permanent solutions for every home concern. Experience the highest rated home care in America.
+                </p>
+
+                <!-- FLIP CARD FOR HERO SECTION -->
+                <div class="reveal floating hero-flip-container">
+                    <div class="hero-flip-inner">
+                        <div class="hero-flip-front">
+                            <div class="flex" style="gap: 0.5rem;">
+                                <svg class="star-svg" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="star-svg" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="star-svg" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="star-svg" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="star-svg" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            </div>
+                            <div style="font-size: 4rem; font-weight: 700; line-height: 1.1;">4.9<span style="font-size: 1.5rem; color: #cbd5e1;">/5.0</span></div>
+                            <div style="height: 1px; width: 80px; background: rgba(255,255,255,0.3); margin: 0.5rem 0;"></div>
+                            <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: #e2e8f0; text-align: center;">Verified Customer Rating</p>
+                        </div>
+                        <div class="hero-flip-back">
+                            <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--accent);">Join Us Today!</h3>
+                            <p style="text-align: center; font-size: 0.95rem; margin-bottom: 1.5rem; color: #e2e8f0;">Experience the #1 rated home maintenance service in the country.</p>
+                            <a href="#servicesDropdown" style="display: inline-block; padding: 12px 24px; background: var(--accent); color: var(--secondary); text-decoration: none; border-radius: 8px; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">View Services</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="stats-section hover-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="reveal text-center stat-item">
+                    <div class="stat-val"><span class="stat-number" data-target="75">0</span>k+</div>
+                    <div class="stat-label">Completed Jobs</div>
+                </div>
+                <div class="reveal text-center stat-item" style="transition-delay: 0.1s">
+                    <div class="stat-val"><span class="stat-number" data-target="120">0</span>+</div>
+                    <div class="stat-label">US Cities</div>
+                </div>
+                <div class="reveal text-center stat-item" style="transition-delay: 0.2s">
+                    <div class="stat-val"><span class="stat-number" data-target="500">0</span>+</div>
+                    <div class="stat-label">Licensed Pros</div>
+                </div>
+                <div class="reveal text-center stat-item" style="transition-delay: 0.3s">
+                    <div class="stat-val"><span class="stat-number" data-target="24">0</span>/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Experiences Slider -->
+    <section class="slider-section hover-section">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 4rem;">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 4rem); font-weight: 800;" class="reveal">Client Experiences</h2>
+                <p class="reveal" style="color: #64748b; margin-top: 1rem;">Real stories from real homeowners across America.</p>
+            </div>
+
+            <div class="relative">
+                <div class="slider-container" id="sliderContainer">
+                    <div class="slider-track" id="slider">
+                        <!-- Slide 1 -->
+                        <div class="slide">
+                            <div class="slide-content">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400" class="slide-img" style="transform: rotate(3deg);">
+                                <div style="flex: 1;">
+                                    <svg class="quote-icon" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C20.1216 16 21.017 16.8954 21.017 18V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM14.017 21C14.017 16.03 16.702 12.181 21.017 10L21.017 12.652C18.665 13.917 17.202 15.65 16.31 18H19.017C20.1216 18 21.017 18.8954 21.017 20V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM3 21L3 18C3 16.8954 3.89543 16 5 16H8C9.10457 16 10 16.8954 10 18V21C10 22.1046 9.10457 23 8 23H5C3.89543 23 3 22.1046 3 21ZM3 21C3 16.03 5.685 12.181 10 10L10 12.652C7.648 13.917 6.185 15.65 5.293 18H8C9.10457 18 10 18.8954 10 20V21C10 22.1046 9.10457 23 8 23H5C3.89543 23 3 22.1046 3 21Z"/></svg>
+                                    <p style="font-size: clamp(1.1rem, 3vw, 1.75rem); font-style: italic; color: #475569; margin-bottom: 2rem;">"The level of professionalism was astounding. They fixed a major leak in my kitchen within an hour. Worth every penny!"</p>
+                                    <div>
+                                        <h4 style="font-size: 1.5rem; font-weight: 700;">James Anderson</h4>
+                                        <p style="color: var(--accent); font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">New York, NY</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="slide">
+                            <div class="slide-content">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400" class="slide-img" style="transform: rotate(-2deg);">
+                                <div style="flex: 1;">
+                                    <svg class="quote-icon" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C20.1216 16 21.017 16.8954 21.017 18V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM14.017 21C14.017 16.03 16.702 12.181 21.017 10L21.017 12.652C18.665 13.917 17.202 15.65 16.31 18H19.017C20.1216 18 21.017 18.8954 21.017 20V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM3 21L3 18C3 16.8954 3.89543 16 5 16H8C9.10457 16 10 16.8954 10 18V21C10 22.1046 9.10457 23 8 23H5C3.89543 23 3 22.1046 3 21ZM3 21C3 16.03 5.685 12.181 10 10L10 12.652C7.648 13.917 6.185 15.65 5.293 18H8C9.10457 18 10 18.8954 10 20V21C10 22.1046 9.10457 23 8 23H5C3.89543 23 3 22.1046 3 21Z"/></svg>
+                                    <p style="font-size: clamp(1.1rem, 3vw, 1.75rem); font-style: italic; color: #475569; margin-bottom: 2rem;">"Finding a reliable electrician is hard. These guys were prompt, clean, and extremely knowledgeable."</p>
+                                    <div>
+                                        <h4 style="font-size: 1.5rem; font-weight: 700;">Sarah Jenkins</h4>
+                                        <p style="color: var(--accent); font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">San Francisco, CA</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="slide">
+                            <div class="slide-content">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" class="slide-img" style="transform: rotate(1deg);">
+                                <div style="flex: 1;">
+                                    <svg class="quote-icon" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C20.1216 16 21.017 16.8954 21.017 18V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM14.017 21C14.017 16.03 16.702 12.181 21.017 10L21.017 12.652C18.665 13.917 17.202 15.65 16.31 18H19.017C20.1216 18 21.017 18.8954 21.017 20V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM3 21L3 18C3 16.8954 3.89543 16 5 16H8C9.10457 16 10 16.8954 10 18V21C10 22.1046 9.10457 23 8 23H5C3.89543 23 3 22.1046 3 21ZM3 21C3 16.03 5.685 12.181 10 10L10 12.652C7.648 13.917 6.185 15.65 5.293 18H8C9.10457 18 10 18.8954 10 20V21C10 22.1046 9.10457 23 8 23H5C3.89543 23 3 22.1046 3 21Z"/></svg>
+                                    <p style="font-size: clamp(1.1rem, 3vw, 1.75rem); font-style: italic; color: #475569; margin-bottom: 2rem;">"Immaculate cleaning service! My house feels brand new. The team was respectful and very thorough."</p>
+                                    <div>
+                                        <h4 style="font-size: 1.5rem; font-weight: 700;">Michael Ross</h4>
+                                        <p style="color: var(--accent); font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">Austin, TX</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="slide">
+                            <div class="slide-content">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400" class="slide-img" style="transform: rotate(-3deg);">
+                                <div style="flex: 1;">
+                                    <svg class="quote-icon" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C20.1216 16 21.017 16.8954 21.017 18V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM14.017 21C14.017 16.03 16.702 12.181 21.017 10L21.017 12.652C18.665 13.917 17.202 15.65 16.31 18H19.017C20.1216 18 21.017 18.8954 21.017 20V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM3 21L3 18C3 16.8954 3.89543 16 5 16H8C9.10457 16 10 16.8954 10 18V21C10 22.1046 9.10457 23 8 23H5C3.89543 23 3 22.1046 3 21ZM3 21C3 16.03 5.685 12.181 10 10L10 12.652C7.648 13.917 6.185 15.65 5.293 18H8C9.10457 18 10 18.8954 10 20V21C10 22.1046 9.10457 23 8 23H5C3.89543 23 3 22.1046 3 21Z"/></svg>
+                                    <p style="font-size: clamp(1.1rem, 3vw, 1.75rem); font-style: italic; color: #475569; margin-bottom: 2rem;">"Amazing AC repair. They didn't just fix the noise, they explained how to maintain it to save energy costs."</p>
+                                    <div>
+                                        <h4 style="font-size: 1.5rem; font-weight: 700;">Emily Davis</h4>
+                                        <p style="color: var(--accent); font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">Miami, FL</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Slide 5 -->
+                        <div class="slide">
+                            <div class="slide-content">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400" class="slide-img" style="transform: rotate(2deg);">
+                                <div style="flex: 1;">
+                                    <svg class="quote-icon" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C20.1216 16 21.017 16.8954 21.017 18V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM14.017 21C14.017 16.03 16.702 12.181 21.017 10L21.017 12.652C18.665 13.917 17.202 15.65 16.31 18H19.017C20.1216 18 21.017 18.8954 21.017 20V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM3 21L3 18C3 16.8954 3.89543 16 5 16H8C9.10457 16 10 16.8954 10 18V21C10 22.1046 9.10457 23 8 23H5C3.89543 23 3 22.1046 3 21ZM3 21C3 16.03 5.685 12.181 10 10L10 12.652C7.648 13.917 6.185 15.65 5.293 18H8C9.10457 18 10 18.8954 10 20V21C10 22.1046 9.10457 23 8 23H5C3.89543 23 3 22.1046 3 21Z"/></svg>
+                                    <p style="font-size: clamp(1.1rem, 3vw, 1.75rem); font-style: italic; color: #475569; margin-bottom: 2rem;">"Emergency plumbing saved my basement from flooding at 3 AM. Truly reliable 24/7 service."</p>
+                                    <div>
+                                        <h4 style="font-size: 1.5rem; font-weight: 700;">Robert Wilson</h4>
+                                        <p style="color: var(--accent); font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">Chicago, IL</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nav Buttons -->
+                <button onclick="moveSlide(-1)" class="slider-nav" style="left: -1.5rem;">
+                    <svg style="width: 1.25rem; height: 1.25rem; fill: currentColor;" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"/></svg>
+                </button>
+                <button onclick="moveSlide(1)" class="slider-nav" style="right: -1.5rem;">
+                    <svg style="width: 1.25rem; height: 1.25rem; fill: currentColor;" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"/></svg>
+                </button>
+            </div>
+
+            <!-- Dots -->
+            <div class="flex justify-center" style="gap: 0.75rem; margin-top: 3rem;">
+                <div onclick="goToSlide(0)" class="slider-dot" style="width: 3.5rem; height: 0.5rem; border-radius: 1rem; background: var(--secondary); cursor: pointer; transition: 0.3s;"></div>
+                <div onclick="goToSlide(1)" class="slider-dot" style="width: 2.5rem; height: 0.5rem; border-radius: 1rem; background: #e2e8f0; cursor: pointer; transition: 0.3s;"></div>
+                <div onclick="goToSlide(2)" class="slider-dot" style="width: 2.5rem; height: 0.5rem; border-radius: 1rem; background: #e2e8f0; cursor: pointer; transition: 0.3s;"></div>
+                <div onclick="goToSlide(3)" class="slider-dot" style="width: 2.5rem; height: 0.5rem; border-radius: 1rem; background: #e2e8f0; cursor: pointer; transition: 0.3s;"></div>
+                <div onclick="goToSlide(4)" class="slider-dot" style="width: 2.5rem; height: 0.5rem; border-radius: 1rem; background: #e2e8f0; cursor: pointer; transition: 0.3s;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us Section -->
+    <section class="hover-section" style="padding: 6rem 0; background: var(--bg-light);">
+        <div class="container">
+            <h2 class="text-center reveal" style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 4rem); font-weight: 800; margin-bottom: 4rem;">Why Homeowners Trust Us</h2>
+            
+            <div class="flip-grid">
+                <!-- Card 1 -->
+                <div class="flip-card reveal">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div style="width: 5rem; height: 5rem; background: var(--bg-light); border-radius: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                                <svg style="width: 2rem; height: 2rem; fill: var(--secondary);" viewBox="0 0 20 20"><path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2V7a5 5 0 00-5-5zM7 7a3 3 0 016 0v2H7V7zm3 9a1 1 0 100-2 1 1 0 000 2z"/></svg>
+                            </div>
+                            <h3 style="font-size: 1.5rem; font-weight: 700;">Vetted Pros</h3>
+                            <p style="color: #94a3b8; font-size: 0.875rem;">Background Checked</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Total Security</h3>
+                            <p>Every pro undergoes a rigorous multi-step background check and ID verification for your peace of mind.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flip-card reveal" style="transition-delay: 0.1s">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div style="width: 5rem; height: 5rem; background: var(--bg-light); border-radius: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                                <svg style="width: 2rem; height: 2rem; fill: var(--secondary);" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            </div>
+                            <h3 style="font-size: 1.5rem; font-weight: 700;">Insurance</h3>
+                            <p style="color: #94a3b8; font-size: 0.875rem;">$1M Liability Coverage</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">You're Covered</h3>
+                            <p>Our services are backed by a $1M insurance policy and a 100% satisfaction guarantee or your money back.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flip-card reveal" style="transition-delay: 0.2s">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div style="width: 5rem; height: 5rem; background: var(--bg-light); border-radius: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                                <svg style="width: 2rem; height: 2rem; fill: var(--secondary);" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                            </div>
+                            <h3 style="font-size: 1.5rem; font-weight: 700;">Flat Rates</h3>
+                            <p style="color: #94a3b8; font-size: 0.875rem;">No Hidden Fees</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Clear Pricing</h3>
+                            <p>What you see is what you pay. No hourly surprises, no hidden material costs. Transparency at its finest.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flip-card reveal" style="transition-delay: 0.3s">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div style="width: 5rem; height: 5rem; background: var(--bg-light); border-radius: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                                <svg style="width: 2rem; height: 2rem; fill: var(--secondary);" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            </div>
+                            <h3 style="font-size: 1.5rem; font-weight: 700;">24/7 Response</h3>
+                            <p style="color: #94a3b8; font-size: 0.875rem;">Always Available</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Emergency Ready</h3>
+                            <p>Plumbing leaks or electrical outages don't wait for business hours. Neither do we. We're here for you 24/7.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="flip-card reveal" style="transition-delay: 0.4s">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div style="width: 5rem; height: 5rem; background: var(--bg-light); border-radius: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                                <svg style="width: 2rem; height: 2rem; fill: var(--secondary);" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                            </div>
+                            <h3 style="font-size: 1.5rem; font-weight: 700;">Satisfaction</h3>
+                            <p style="color: #94a3b8; font-size: 0.875rem;">100% Quality Guarantee</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Work Guarantee</h3>
+                            <p>If you aren't completely happy with our service, we'll return to make it right—absolutely free of charge.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="flip-card reveal" style="transition-delay: 0.5s">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div style="width: 5rem; height: 5rem; background: var(--bg-light); border-radius: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                                <svg style="width: 2rem; height: 2rem; fill: var(--secondary);" viewBox="0 0 24 24"><path d="M17 8C14.24 8 12 10.24 12 13C12 15.76 14.24 18 17 18C19.76 18 22 15.76 22 13C22 10.24 19.76 8 17 8ZM17 16C15.34 16 14 14.66 14 13C14 11.34 15.34 10 17 10C18.66 10 20 11.34 20 13C20 14.66 18.66 16 17 16ZM10 10.5C10 9.12 8.88 8 7.5 8C6.12 8 5 9.12 5 10.5C5 11.88 6.12 13 7.5 13C8.88 13 10 11.88 10 10.5ZM17 3.5C17 2.12 15.88 1 14.5 1H9.5C8.12 1 7 2.12 7 3.5C7 4.88 8.12 6 9.5 6H14.5C15.88 6 17 4.88 17 3.5Z"/></svg>
+                            </div>
+                            <h3 style="font-size: 1.5rem; font-weight: 700;">Eco-Friendly</h3>
+                            <p style="color: #94a3b8; font-size: 0.875rem;">Sustainable Choices</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Green Service</h3>
+                            <p>We prioritize eco-friendly cleaning materials and energy-efficient repair solutions to protect your family and the planet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 18 Verified Reviews Section -->
+    <section class="reviews-section hover-section">
+        <div class="container">
+            <h2 class="text-center reveal" style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 4rem); font-weight: 800; margin-bottom: 4rem;">Verified Reviews</h2>
+            <div class="reviews-grid">
+                
+                <!-- Review 1 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">KT</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Kevin Thompson</h4>
+                            <div class="flex" style="gap: 2px;">
+                                <svg class="star-small" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg> <span style="color: var(--accent);">★★★★★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"Highly professional work. The plumber arrived on time and solved the problem."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 1 hour ago</p>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">LR</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Linda Ramirez</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"They cleaned the house very well. I will definitely call them again. Excellent service!"</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 4 hours ago</p>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">BW</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Brian White</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"The electrical work was great. Cleared all the trash. Helped me a lot."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 1 day ago</p>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">SJ</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Sarah Jenkins</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"HVAC repair was done immediately. The staff's behavior was also very good."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 2 days ago</p>
+                </div>
+
+                <!-- Review 5 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">MR</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Michael Ross</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"My window fitting work was perfect. The price was also reasonable. 5 Stars!"</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 2 days ago</p>
+                </div>
+
+                <!-- Review 6 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">ED</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Emily Davis</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"After pest control, not a single bug is visible now. Thank you so much for your work!"</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 3 days ago</p>
+                </div>
+
+                <!-- Review 7 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">RW</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Robert Wilson</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"The roof repair work was done very well. No water comes in during the rain now."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 4 days ago</p>
+                </div>
+
+                <!-- Review 8 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">AT</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Amanda Taylor</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"The handyman did all the small and big jobs around my house. Very nice person."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 5 days ago</p>
+                </div>
+
+                <!-- Review 9 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">DM</div>
+                        <div>
+                            <h4 style="font-weight: 700;">David Miller</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"The lock was broken, the locksmith came and fixed it immediately. Best service."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 1 week ago</p>
+                </div>
+
+                <!-- Review 10 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">JC</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Jessica Clark</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"The painting work was done beautifully. My house looks brand new."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 1 week ago</p>
+                </div>
+
+                <!-- Review 11 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">CL</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Christopher Lee</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"Did a great job with the landscaping. Better than I expected."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 2 weeks ago</p>
+                </div>
+
+                <!-- Review 12 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">AW</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Ashley Wright</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"The washing machine was broken, the guy came and fixed it in 30 minutes."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 2 weeks ago</p>
+                </div>
+
+                <!-- Review 13 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">MK</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Matthew King</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"The plumber came during an emergency at night. Very helpful."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 3 weeks ago</p>
+                </div>
+
+                <!-- Review 14 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">OS</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Olivia Scott</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"AC fitting was done very cleanly. No damage to the wall."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 1 month ago</p>
+                </div>
+
+                <!-- Review 15 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">JG</div>
+                        <div>
+                            <h4 style="font-weight: 700;">James Green</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"Their work is better and cheaper than others. TrustWay is the best."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 1 month ago</p>
+                </div>
+
+                <!-- Review 16 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">SA</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Sophia Adams</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"Every professional is very experienced. I liked their work."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 2 months ago</p>
+                </div>
+
+                <!-- Review 17 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">DB</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Daniel Baker</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"The house cleaning team works very hard. Very nice experience."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 2 months ago</p>
+                </div>
+
+                <!-- Review 18 -->
+                <div class="review-card reveal">
+                    <div class="flex items-center" style="gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="review-avatar">IG</div>
+                        <div>
+                            <h4 style="font-weight: 700;">Isabella Gonzalez</h4>
+                            <div class="flex" style="gap: 2px;"><span style="color: var(--accent);">★★★★★</span></div>
+                        </div>
+                    </div>
+                    <p style="color: #475569; font-style: italic;">"Booking the service was very easy. Customer care support is also good."</p>
+                    <p style="font-size: 0.65rem; font-weight: 700; color: #94a3b8; margin-top: 1.5rem; text-transform: uppercase;">Verified Purchase • 3 months ago</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D Minimal Branded Footer -->
+    <footer class="footer-containerfoofon">
+        <div class="curve-dividerfoofon">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path class="shape-fillfoofon" d="M0,32L60,42.7C120,53,240,75,360,80C480,85,600,75,720,58.7C840,43,960,21,1080,16C1200,11,1320,21,1380,26.7L1440,32V0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+            </svg>
+        </div>
+
+        <div class="containerfoofon" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+            <a href="TrustWay.html" class="logo-buttonfoofon">
+                <div class="logo-img-3dfoofon">
+                    <img src="image/logo2.png" alt="TrustWay Logo" onerror="this.src='https://via.placeholder.com/50?text=TW'">
+                </div>
+                <div class="logo-text-groupfoofon">
+                    <div class="logo-3dfoofon">Trust<span>Way</span></div>
+                    <div class="logo-sub-textfoofon">Maintenance</div>
+                </div>
+            </a>
+
+            <nav class="service-navfoofon">
+               <a href="Plumber.html">Plumber Service</a>
+                <a href="Handyman.html">Handyman</a>
+                <a href="HVAC.html">HVAC Installation</a>
+               <a href="Appliance.html">Appliance</a>
+                <a href="Window.html">Window Installation</a>
+            </nav>
+
+            <div class="copyright-containerfoofon">
+                <div class="copyright-boxfoofon">
+                    <div>&copy; 2026 TrustWay Maintenance</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* Content Animations & Intersection Observer */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    counters.forEach(counter => animateCounter(counter));
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        function animateCounter(el) {
+            if (el.classList.contains('counted')) return;
+            el.classList.add('counted');
+            const target = parseInt(el.getAttribute('data-target'));
+            let current = 0;
+            const timer = setInterval(() => {
+                current += target / 60;
+                if (current >= target) {
+                    el.innerText = target;
+                    clearInterval(timer);
+                } else {
+                    el.innerText = Math.ceil(current);
+                }
+            }, 30);
+        }
+
+        /* Slider Logic (Full 5 Slides) */
+        let currentSlide = 0;
+        const totalSlides = 5; 
+        const sliderTrack = document.getElementById('slider');
+
+        function moveSlide(dir) {
+            currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+        }
+
+        function updateSlider() {
+            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            const dots = document.querySelectorAll('.slider-dot');
+            dots.forEach((dot, index) => {
+                dot.style.backgroundColor = (index === currentSlide) ? 'var(--secondary)' : '#e2e8f0';
+                dot.style.width = (index === currentSlide) ? '3.5rem' : '2.5rem';
+            });
+        }
+
+        /* Slider Auto Play Logic Improvement */
+        let autoSlider = setInterval(() => moveSlide(1), 3000); // 3 seconds for visible movement
+
+        const sliderContainer = document.getElementById('sliderContainer');
+        
+        // Pause on mouse hover or touch start
+        sliderContainer.addEventListener('mouseenter', () => clearInterval(autoSlider));
+        sliderContainer.addEventListener('touchstart', () => clearInterval(autoSlider));
+        
+        // Resume on mouse leave or touch end
+        sliderContainer.addEventListener('mouseleave', () => {
+            clearInterval(autoSlider); // Ensure no double intervals
+            autoSlider = setInterval(() => moveSlide(1), 3000);
+        });
+        sliderContainer.addEventListener('touchend', () => {
+            clearInterval(autoSlider);
+            autoSlider = setInterval(() => moveSlide(1), 3000);
+        });
+
+
+        // --- UI Interactions ---
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        const servicesDropdown = document.getElementById('servicesDropdown');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('der-active');
+            const spans = menuToggle.getElementsByTagName('span');
+            if(navMenu.classList.contains('der-active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        servicesDropdown.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992) {
+                const trigger = e.target.closest('.der-dropdown-trigger');
+                if (trigger) {
+                    e.preventDefault();
+                    servicesDropdown.classList.toggle('der-mobile-open');
+                }
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992) {
+                navMenu.classList.remove('der-active');
+                servicesDropdown.classList.remove('der-mobile-open');
+            }
+        });
+
+        // --- Firebase Configuration & Auth Logic ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5fBfvrtbcDUJTdP5-jc9adfxJWc53n94",
+            authDomain: "auth-d7f3a.firebaseapp.com",
+            projectId: "auth-d7f3a",
+            storageBucket: "auth-d7f3a.firebasestorage.app",
+            messagingSenderId: "200460928170",
+            appId: "1:200460928170:web:923331402c31bda2a3bcd3"
+        };
+
+        if (typeof firebase !== 'undefined') {
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+
+            auth.onAuthStateChanged((user) => {
+                const authBtn = document.getElementById('userAuthBtn');
+                if (user) {
+                    authBtn.textContent = "Log out";
+                    authBtn.href = "javascript:void(0)";
+                    authBtn.onclick = function() {
+                        auth.signOut().then(() => {
+                            window.location.href = "Login.html";
+                        });
+                    };
+                } else {
+                    authBtn.textContent = "Log in";
+                    authBtn.href = "Login.html";
+                    authBtn.onclick = null;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
