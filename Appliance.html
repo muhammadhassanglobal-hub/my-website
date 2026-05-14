@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrustWay Maintenance - Appliance</title>
-<link rel="icon" type="image/png" href="image/logo1.png">
+    <link rel="icon" type="image/png" href="image/logo1.png">
     <style>
-        /* CSS Variables for Brand Colors */
+        /* CSS Variables */
         :root {
             --tw-dark-blue: #003B5C;
             --tw-light-blue: #00AEEF;
@@ -14,6 +14,19 @@
             --white: #ffffff;
             --text-gray: #64748b;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --blue: #1565C0;
+            --blue-dark: #0D47A1;
+            --blue-light: #1976D2;
+            --orange: #FF6F00;
+            --orange-light: #FF8F00;
+            --gray-bg: #f5f7fa;
+            --gray-light: #e8ecf0;
+            --text-dark: #1a1a2e;
+            --text-mid: #444;
+            --text-light: #777;
+            --green: #2e7d32;
+            --shadow: 0 4px 20px rgba(0,0,0,0.10);
+            --radius: 12px;
         }
 
         * {
@@ -22,15 +35,17 @@
             box-sizing: border-box;
         }
 
-        /* Fixed 'bo' to 'body' */
-        body {
-            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif; 
-            background-color: var(--bg-gray);
+        html, body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--white);
+            color: var(--text-dark);
             overflow-x: hidden;
-            scroll-behavior: smooth; /* Smooth scroll ke liye */
+            scroll-behavior: smooth;
         }
 
-        /* Navbar Styling */
+        a { text-decoration: none; color: inherit; }
+
+        /* ================= Navbar Styling ================= */
         .ser-navbar {
             background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
             position: sticky;
@@ -53,12 +68,10 @@
             align-items: center;
         }
 
-        /* Logo Section */
         .ser-logo-section {
             display: flex;
             align-items: center;
             gap: 15px;
-            text-decoration: none; 
             transition: var(--transition);
         }
 
@@ -75,39 +88,12 @@
             overflow: hidden;
         }
 
-        .ser-image-container img {
-            width: 70%;
-            height: auto;
-            object-fit: contain;
-        }
+        .ser-image-container img { width: 70%; height: auto; object-fit: contain; }
+        .ser-logo-text { display: flex; flex-direction: column; line-height: 1; }
+        .ser-brand-name { font-size: 1.8rem; font-weight: 800; color: var(--tw-dark-blue); letter-spacing: -0.5px; }
+        .ser-brand-name span { color: var(--tw-light-blue); }
+        .ser-sub-text { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-gray); font-weight: 700; margin-top: 2px; }
 
-        .ser-logo-text {
-            display: flex;
-            flex-direction: column;
-            line-height: 1;
-        }
-
-        .ser-brand-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--tw-dark-blue);
-            letter-spacing: -0.5px;
-        }
-
-        .ser-brand-name span {
-            color: var(--tw-light-blue);
-        }
-
-        .ser-sub-text {
-            font-size: 0.7rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--text-gray);
-            font-weight: 700;
-            margin-top: 2px;
-        }
-
-        /* Nav Menu */
         .ser-nav-menu {
             display: flex;
             align-items: center;
@@ -115,9 +101,7 @@
             list-style: none;
         }
 
-        /* Nav Links */
         .ser-nav-link, .ser-dropdown-trigger {
-            text-decoration: none;
             font-size: 0.85rem;
             font-weight: 700;
             color: var(--tw-dark-blue);
@@ -138,20 +122,9 @@
             background: rgba(0, 174, 239, 0.08);
         }
 
-        /* Dropdown Container */
-        .ser-dropdown-container {
-            position: relative;
-        }
-
-        .ser-n-arrow {
-            font-size: 0.7rem;
-            transition: transform 0.3s ease;
-            color: var(--tw-light-blue);
-        }
-
-        .ser-dropdown-container:hover .ser-n-arrow {
-            transform: rotate(180deg);
-        }
+        .ser-dropdown-container { position: relative; }
+        .ser-n-arrow { font-size: 0.7rem; transition: transform 0.3s ease; color: var(--tw-light-blue); }
+        .ser-dropdown-container:hover .ser-n-arrow { transform: rotate(180deg); }
 
         .ser-dropdown {
             position: absolute;
@@ -173,154 +146,188 @@
         }
 
         .ser-dropdown::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: 50%;
-            transform: translateX(-50%) rotate(45deg);
-            width: 12px;
-            height: 12px;
-            background: var(--white);
-            border-left: 1px solid rgba(0,0,0,0.05);
-            border-top: 1px solid rgba(0,0,0,0.05);
+            content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%) rotate(45deg);
+            width: 12px; height: 12px; background: var(--white); border-left: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05);
         }
 
-        .ser-dropdown-container:hover .ser-dropdown {
-            opacity: 1;
-            visibility: visible;
-        }
+        .ser-dropdown-container:hover .ser-dropdown { opacity: 1; visibility: visible; }
+        .ser-dropdown li a { display: block; padding: 12px 16px; color: var(--tw-dark-blue); font-size: 0.9rem; font-weight: 600; border-radius: 6px; transition: var(--transition); }
+        .ser-dropdown li a:hover { background: var(--tw-light-blue); color: var(--white); }
 
-        /* Dropdown Links */
-        .ser-dropdown li a {
-            display: block;
-            padding: 12px 16px;
-            color: var(--tw-dark-blue);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 6px;
-            transition: var(--transition);
-        }
-
-        .ser-dropdown li a:hover {
-            background: var(--tw-light-blue);
-            color: var(--white);
-        }
-
-        /* Call Button Style */
         .ser-call-btn {
-            margin-left: 10px;
-            padding: 12px 28px;
-            background-color: var(--white);
-            border: 2px solid var(--tw-dark-blue);
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 0.85rem;
-            color: var(--tw-dark-blue);
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 0 var(--tw-dark-blue);
-            text-transform: uppercase;
-            display: inline-block;
-            text-align: center;
+            margin-left: 10px; padding: 12px 28px; background-color: var(--white); border: 2px solid var(--tw-dark-blue);
+            border-radius: 10px; font-weight: 800; font-size: 0.85rem; color: var(--tw-dark-blue);
+            transition: all 0.2s ease; box-shadow: 0 4px 0 var(--tw-dark-blue); text-transform: uppercase; text-align: center;
         }
+        .ser-call-btn:hover { box-shadow: 0 6px 0 var(--tw-dark-blue); color: var(--tw-light-blue); border-color: var(--tw-light-blue); }
+        .ser-call-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--tw-dark-blue); }
 
-        .ser-call-btn:hover {
-            box-shadow: 0 6px 0 var(--tw-dark-blue);
-            color: var(--tw-light-blue);
-            border-color: var(--tw-light-blue);
-        }
-
-        .ser-call-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 1px 0 var(--tw-dark-blue);
-        }
-
-        /* Mobile View Styles */
         .ser-menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 10px;
+            display: none; flex-direction: column; gap: 6px; cursor: pointer; background: none; border: none; padding: 10px;
+        }
+        .ser-menu-toggle span { width: 30px; height: 3px; background-color: var(--tw-dark-blue); border-radius: 3px; transition: var(--transition); }
+
+        /* ================= Hero Section ================= */
+        .hero {
+            position: relative;
+            min-height: 55vh;
+            overflow: hidden;
+            background: radial-gradient(circle at 18% 18%, rgba(59, 130, 246, 0.24), transparent 30%),
+                        radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.1), transparent 26%),
+                        linear-gradient(135deg, #020617 0%, #0a192f 48%, #010409 100%);
+            color: #fff;
         }
 
-        .ser-menu-toggle span {
-            width: 30px;
-            height: 3px;
-            background-color: var(--tw-dark-blue);
-            border-radius: 3px;
-            transition: var(--transition);
+        .hero::after {
+            content: ""; position: absolute; width: 520px; height: 520px; left: 50%; top: -160px;
+            transform: translateX(-50%); border-radius: 50%; background: rgba(59, 130, 246, 0.12); filter: blur(70px);
         }
 
-        @media (max-width: 992px) {
-            .ser-menu-toggle { display: flex; }
-            
-            .ser-nav-menu {
-                position: absolute;
-                top: 95px;
-                left: 0;
-                width: 100%;
-                background-color: var(--white);
-                flex-direction: column;
-                padding: 10px 0;
-                display: none;
-                border-top: 1px solid #eee;
-                gap: 0;
-                max-height: calc(100vh - 95px);
-                overflow-y: auto;
-                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-            }
-
-            .ser-nav-menu.ser-active { display: flex; }
-
-            .ser-nav-menu li {
-                width: 100%;
-                border-bottom: 1px solid #f1f5f9;
-            }
-
-            .ser-nav-link, .ser-dropdown-trigger {
-                width: 100%;
-                padding: 18px 24px;
-                border-radius: 0;
-                justify-content: space-between;
-                font-size: 0.95rem;
-            }
-
-            .ser-dropdown {
-                position: static;
-                transform: none;
-                width: 100%;
-                opacity: 1;
-                visibility: visible;
-                display: none;
-                box-shadow: none;
-                background: #f8fafc;
-                padding: 0 0 0 20px;
-                border: none;
-                margin-top: 0;
-            }
-
-            .ser-dropdown::before { display: none; }
-            
-            .ser-dropdown-container.ser-mobile-open .ser-dropdown { 
-                display: block; 
-            }
-
-            .ser-dropdown-container.ser-mobile-open .ser-n-arrow {
-                transform: rotate(180deg);
-            }
-
-            .ser-call-btn {
-                margin: 20px 24px;
-                display: block;
-                box-shadow: 0 4px 0 var(--tw-dark-blue);
-            }
+        .hero-container {
+            position: relative; z-index: 4; max-width: 1200px; margin: 0 auto; padding: 40px 24px;
+            display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center; gap: 60px;
         }
 
-        /* Footer Branded Styling */
+        .hero-content { animation: fadeUp 0.9s ease both; }
+
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: 10px; padding: 8px 15px; margin-bottom: 20px;
+            border-radius: 999px; border: 1px solid rgba(59, 130, 246, 0.28); background: rgba(255,255,255,0.08);
+            font-size: 13px; backdrop-filter: blur(14px); box-shadow: 0 18px 45px rgba(59, 130, 246, 0.06);
+        }
+        .eyebrow span { width: 8px; height: 8px; border-radius: 50%; background: #3b82f6; box-shadow: 0 0 18px #3b82f6; animation: pulse 1.8s ease-in-out infinite; }
+
+        .hero-content h1 {
+            font-size: clamp(34px, 4.5vw, 58px); line-height: 1.1; letter-spacing: -2px; font-weight: 800; color: #ffffff;
+        }
+        .hero-content h1 span { display: block; background: linear-gradient(90deg, #93c5fd, #3b82f6, #ffffff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+        .hero-content p { max-width: 650px; margin-top: 18px; font-size: clamp(15px, 1.6vw, 18px); line-height: 1.6; }
+
+        .hero-actions { display: flex; align-items: center; gap: 16px; margin-top: 28px; flex-wrap: wrap; }
+
+        .primary-btn {
+            display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 40px;
+            border-radius: 999px; font-size: 16px; position: relative; overflow: hidden; font-weight: 700;
+            color: #ffffff; background: linear-gradient(145deg, #3b82f6, #1d4ed8);
+            box-shadow: 0 6px 0 #1e3a8a, 0 10px 25px rgba(59, 130, 246, 0.3); transition: all 0.15s ease;
+        }
+        .primary-btn::after {
+            content: ""; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+            transform: skewX(-25deg); transition: 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .primary-btn:hover::after { left: 150%; }
+        .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #1e3a8a, 0 20px 40px rgba(59, 130, 246, 0.4); filter: brightness(1.1); }
+        .primary-btn:active { transform: translateY(6px); box-shadow: 0 0 0 #1e3a8a, 0 5px 10px rgba(59, 130, 246, 0.4); }
+
+        .service-tags { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 650px; margin-top: 30px; }
+        .service-tags div {
+            padding: 10px 8px; text-align: center; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.06); font-size: 12px; backdrop-filter: blur(10px); transition: 0.3s ease;
+        }
+        .service-tags div:hover { color: #93c5fd; border-color: rgba(59, 130, 246, 0.35); transform: translateY(-4px); }
+
+        .hero-visual { position: relative; animation: fadeScale 1s ease 0.15s both; }
+        .image-card {
+            position: relative; padding: 12px; border-radius: 36px; border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.08); box-shadow: 0 30px 80px rgba(0,0,0,0.4); backdrop-filter: blur(18px); overflow: hidden;
+        }
+        .image-card::before {
+            content: ""; position: absolute; inset: -90px; background: conic-gradient(from 180deg, transparent, rgba(59, 130, 246, 0.28), transparent 35%); animation: rotateGlow 7s linear infinite;
+        }
+        .image-frame { position: relative; height: 350px; border-radius: 28px; overflow: hidden; background: #0a192f; isolation: isolate; }
+        .image-frame img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.08) saturate(0.92) brightness(0.82); transform: scale(1.04); animation: slowZoom 8s ease-in-out infinite alternate; }
+        .image-frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,10,30,0.64)); z-index: 1; }
+
+        .floating-badge, .rating-card {
+            position: absolute; z-index: 3; border: 1px solid rgba(255,255,255,0.14); background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(16px); box-shadow: 0 22px 55px rgba(0,0,0,0.28); animation: float 4s ease-in-out infinite;
+        }
+        .floating-badge { top: 24px; right: 24px; padding: 8px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fff;}
+        .rating-card { left: 24px; bottom: 24px; width: calc(100% - 48px); border-radius: 20px; padding: 16px; animation-delay: 0.8s; }
+        .rating-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 10px; }
+        .rating-top h4 { font-size: 15px; color: #ffffff; margin: 0;}
+        .stars { color: #3b82f6; letter-spacing: 2px; font-size: 13px; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .stats div { padding: 10px 8px; border-radius: 14px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.09); text-align: center;}
+        .stats strong { display: block; font-size: 15px; color: #93c5fd; }
+        .stats span { display: block; margin-top: 4px; color: #ffffff; font-size: 10px; }
+
+        /* ================= Body Sections ================= */
+        section { padding: 80px 24px; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-family: 'Montserrat', sans-serif; font-size: 34px; font-weight: 800; color: var(--text-dark); margin-bottom: 15px; }
+        .section-title p { color: var(--text-light); font-size: 16px; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+        .section-title .accent { color: var(--orange); }
+
+        /* WHY CHOOSE */
+        .why-section { background: var(--gray-bg); }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+        .feature-card {
+            background: #fff; border-radius: var(--radius); padding: 30px 24px; box-shadow: var(--shadow);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease; position: relative; overflow: hidden;
+        }
+        .feature-card::before, .service-card::before, .testimonial-card::before {
+            content: ''; position: absolute; top: 0; left: 50%; width: 0; height: 4px; background-color: var(--blue); transition: width 0.4s ease, left 0.4s ease; z-index: 1;
+        }
+        .feature-card:hover::before, .service-card:hover::before, .testimonial-card:hover::before { width: 100%; left: 0; }
+        .feature-card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
+        .feature-icon { width: 54px; height: 54px; background: linear-gradient(135deg, var(--blue), var(--blue-light)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 16px; color: #fff;}
+        .feature-card h3 { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--text-dark); }
+        .feature-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+
+        /* SERVICES */
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+        .service-card {
+            background: #fff; border-radius: var(--radius); padding: 28px 24px; box-shadow: var(--shadow);
+            border: 2px solid var(--gray-light); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
+        }
+        .service-card:hover { border-color: var(--blue); box-shadow: 0 8px 28px rgba(21,101,192,0.15); transform: translateY(-5px); }
+        .service-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .service-icon { font-size: 28px; }
+        .service-card h3 { font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 700; color: var(--blue-dark); margin: 0;}
+        .service-list { list-style: none; }
+        .service-list li { font-size: 14px; color: var(--text-mid); padding: 6px 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f0f0f0; }
+        .service-list li:last-child { border: none; }
+        .service-list li::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 14px; flex-shrink: 0; }
+
+        /* STATS */
+        .stats-section { background: linear-gradient(135deg, var(--blue-dark), var(--blue)); color: #fff; text-align: center;}
+        .stats-section .section-title h2 { color: #fff; }
+        .stats-section .section-title p { color: rgba(255,255,255,0.8); }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
+        .stat-item { text-align: center; }
+        .stat-num { font-family: 'Montserrat', sans-serif; font-size: 48px; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 8px; }
+        .stat-num span { color: var(--orange); }
+        .stat-label { color: rgba(255,255,255,0.85); font-size: 15px; font-weight: 600; }
+
+        /* STEPS */
+        .steps-section { background: var(--gray-bg); }
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+        .step-card { height: 280px; perspective: 1000px; background: transparent; }
+        .step-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
+        .step-card:hover .step-card-inner { transform: rotateY(180deg); }
+        .step-card-front, .step-card-back {
+            position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 24px; box-shadow: var(--shadow);
+        }
+        .step-card-front { background-color: #fff; color: var(--text-dark); }
+        .step-card-back { background-color: var(--blue); color: #fff; transform: rotateY(180deg); }
+        .step-num { width: 60px; height: 60px; background: var(--blue); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 20px; }
+        .step-card-front h3 { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 700; margin: 0; }
+        .step-card-back p { font-size: 15px; line-height: 1.6; margin: 0; font-weight: 500; }
+
+        /* TESTIMONIALS */
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+        .testimonial-card { background: #fff; border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .testimonial-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+        .testimonial-card .stars { color: #FFA000; font-size: 18px; margin-bottom: 12px; }
+        .testimonial-card p { font-size: 14.5px; color: var(--text-mid); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+        .reviewer { font-weight: 700; font-size: 14px; color: var(--blue-dark); }
+
+        /* ================= Footer Styling ================= */
         .footer-containerfoofon {
             background: linear-gradient(145deg, #020617, #0f172a);
             color: var(--white);
@@ -332,925 +339,125 @@
             align-items: center;
             width: 100%;
         }
-
-        .curve-dividerfoofon {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            line-height: 0;
-            transform: translateY(-1px);
-        }
-
-        .curve-dividerfoofon svg {
-            display: block;
-            width: 100%;
-            height: clamp(40px, 6vw, 80px);
-        }
-
-        .curve-dividerfoofon .shape-fillfoofon {
-            fill: #f1f5f9;
-        }
+        .curve-dividerfoofon { position: absolute; top: 0; left: 0; width: 100%; line-height: 0; transform: translateY(-1px); }
+        .curve-dividerfoofon svg { display: block; width: 100%; height: clamp(40px, 6vw, 80px); }
+        .curve-dividerfoofon .shape-fillfoofon { fill: #ffffff; }
 
         .logo-buttonfoofon {
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: clamp(30px, 6vw, 50px);
-            transition: all 0.3s ease;
-            background: transparent;
-            border: none;
-            cursor: pointer;
+            text-decoration: none; display: flex; align-items: center; gap: 15px; margin-bottom: clamp(30px, 6vw, 50px);
+            transition: all 0.3s ease; background: transparent; border: none; cursor: pointer;
         }
-
         .logo-img-3dfoofon {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            background: var(--white);
-            border: 3px solid var(--tw-light-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 4px 0 var(--tw-dark-blue), 0 10px 15px rgba(0,0,0,0.4);
+            width: 65px; height: 65px; border-radius: 50%; background: var(--white); border: 3px solid var(--tw-light-blue);
+            display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 0 var(--tw-dark-blue), 0 10px 15px rgba(0,0,0,0.4);
         }
-
-        .logo-img-3dfoofon img {
-            width: 75%;
-            height: 75%;
-            object-fit: contain;
-        }
-
-        .logo-text-groupfoofon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .logo-3dfoofon {
-            font-size: clamp(1.8rem, 5vw, 2.8rem);
-            font-weight: 800;
-            color: var(--white);
-            line-height: 1;
-            text-shadow: 0 4px 0 #00101c, 0 10px 15px rgba(0,0,0,0.6);
-        }
-        
+        .logo-img-3dfoofon img { width: 75%; height: 75%; object-fit: contain; }
+        .logo-text-groupfoofon { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .logo-3dfoofon { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; color: var(--white); line-height: 1; text-shadow: 0 4px 0 #00101c, 0 10px 15px rgba(0,0,0,0.6); }
         .logo-3dfoofon span { color: var(--tw-light-blue); }
+        .logo-sub-textfoofon { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--text-gray); font-weight: 700; margin-top: 8px; }
 
-        .logo-sub-textfoofon {
-            font-size: 0.65rem;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--text-gray);
-            font-weight: 700;
-            margin-top: 8px;
-        }
-
-        .service-navfoofon {
-            width: 90%;
-            max-width: 1200px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
+        .service-navfoofon { width: 90%; max-width: 1200px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 40px; }
         .service-navfoofon a {
-            background: #1e293b;
-            padding: 14px;
-            border-radius: 12px;
-            color: var(--text-gray);
-            text-decoration: none;
-            text-align: center;
-            font-weight: 600;
-            box-shadow: 0 5px 0 #020617;
-            transition: all 0.2s;
+            background: #1e293b; padding: 12px 20px; border-radius: 12px; color: var(--text-gray); text-decoration: none;
+            text-align: center; font-weight: 600; font-size: 14px; box-shadow: 0 4px 0 #020617; transition: all 0.2s; white-space: nowrap;
+        }
+        .service-navfoofon a:hover { color: var(--tw-light-blue); transform: translateY(-3px); box-shadow: 0 7px 0 #020617; }
+        
+        .copyright-containerfoofon { width: 100%; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
+        .copyright-boxfoofon { font-size: 0.85rem; color: #64748b; background: rgba(0,0,0,0.3); padding: 10px 40px; border-radius: 50px; display: inline-block; }
+
+        /* ================= Animations ================= */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulse { 0%, 100% { opacity: 0.55; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.25); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes slowZoom { from { transform: scale(1.04); } to { transform: scale(1.12); } }
+        @keyframes rotateGlow { to { transform: rotate(360deg); } }
+
+        /* ================= Responsive Media Queries ================= */
+
+        /* Tablets & Smaller Desktops */
+        @media (max-width: 1024px) {
+            .hero-container { gap: 40px; }
+            .hero-content h1 { font-size: 40px; }
+            .features-grid, .services-grid, .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid, .steps-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
-        .service-navfoofon a:hover {
-            color: var(--tw-light-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 0 #020617;
+        /* Nav Menu Breakpoint */
+        @media (max-width: 992px) {
+            .ser-menu-toggle { display: flex; }
+            
+            .ser-nav-menu {
+                position: absolute; top: 95px; left: 0; width: 100%; background-color: var(--white);
+                flex-direction: column; padding: 10px 0; display: none; border-top: 1px solid #eee;
+                gap: 0; max-height: calc(100vh - 95px); overflow-y: auto; box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            }
+            .ser-nav-menu.ser-active { display: flex; }
+            .ser-nav-menu li { width: 100%; border-bottom: 1px solid #f1f5f9; }
+            .ser-nav-link, .ser-dropdown-trigger { width: 100%; padding: 18px 24px; border-radius: 0; justify-content: space-between; font-size: 0.95rem; }
+
+            .ser-dropdown {
+                position: static; transform: none; width: 100%; opacity: 1; visibility: visible; display: none;
+                box-shadow: none; background: #f8fafc; padding: 0 0 0 20px; border: none; margin-top: 0;
+            }
+            .ser-dropdown-container.ser-mobile-open .ser-dropdown { display: block; }
+            .ser-dropdown-container.ser-mobile-open .ser-n-arrow { transform: rotate(180deg); }
+
+            .ser-call-btn { margin: 20px 24px; display: block; box-shadow: 0 4px 0 var(--tw-dark-blue); }
+            .hero-container { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+            .hero-content p, .service-tags { margin-left: auto; margin-right: auto; }
+            .hero-actions { justify-content: center; }
+            .image-frame { height: 400px; max-width: 600px; margin: 0 auto; }
         }
 
-        .copyright-containerfoofon {
-            width: 100%;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            text-align: center;
+        /* Large Phones / Tablets */
+        @media (max-width: 768px) {
+            section { padding: 60px 20px; }
+            .section-title h2 { font-size: 28px; }
+            
+            /* Convert Grids to 1 Column for Mobile */
+            .features-grid, .services-grid, .testimonials-grid { grid-template-columns: 1fr; }
+            .steps-grid { grid-template-columns: 1fr; max-width: 400px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px;}
+            
+            .service-tags { grid-template-columns: repeat(2, 1fr); }
+            .hero-content h1 { font-size: 36px; }
+
+            .service-navfoofon { grid-template-columns: 1fr; width: 100%; padding: 0 20px; flex-direction: column; }
+            .service-navfoofon a { width: 100%; }
+            .logo-buttonfoofon { flex-direction: column; gap: 10px; }
+            .logo-3dfoofon { font-size: 2.2rem; }
         }
 
-        .copyright-boxfoofon {
-            font-size: 0.8rem;
-            color: #64748b;
-            background: rgba(0,0,0,0.3);
-            padding: 10px 40px;
-            border-radius: 50px;
-            display: inline-block;
+        /* Mobile Phones */
+        @media (max-width: 480px) {
+            .ser-brand-name { font-size: 1.5rem; }
+            .ser-image-container { width: 45px; height: 45px; }
+            
+            .hero-content h1 { font-size: 30px; letter-spacing: -1px; }
+            .hero-actions { flex-direction: column; width: 100%; }
+            .primary-btn { width: 100%; font-size: 15px; }
+            
+            .service-tags { grid-template-columns: 1fr; }
+            .image-frame { height: 320px; border-radius: 20px;}
+            .floating-badge { top: 15px; right: 15px; font-size: 11px; }
+            .rating-card { left: 15px; right: 15px; bottom: 15px; width: auto; padding: 12px; }
+            .rating-top h4 { font-size: 13px; }
+            .stats { grid-template-columns: 1fr; }
+
+            .stats-grid { grid-template-columns: 1fr; }
+            
+            .copyright-boxfoofon { padding: 10px 20px; font-size: 0.75rem; border-radius: 20px; }
         }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background: #020617; /* Dark Blue base */
-      color: #ffffff;
-    }
-
-    .hero {
-      position: relative;
-      min-height: 55vh; /* Height kam ki gayi 70vh se */
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 18% 18%, rgba(59, 130, 246, 0.24), transparent 30%),
-        radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.1), transparent 26%),
-        linear-gradient(135deg, #020617 0%, #0a192f 48%, #010409 100%);
-    }
-
-    .hero::before {
-      display: none;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 520px;
-      height: 520px;
-      left: 50%;
-      top: -160px;
-      transform: translateX(-50%);
-      border-radius: 50%;
-      background: rgba(59, 130, 246, 0.12); /* Blue glow */
-      filter: blur(70px);
-    }
-
-    .navbar {
-      position: relative;
-      z-index: 5;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 26px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-icon {
-      width: 46px;
-      height: 46px;
-      display: grid;
-      place-items: center;
-      border-radius: 18px;
-      border: 1px solid rgba(59, 130, 246, 0.35);
-      background: rgba(255,255,255,0.09);
-      box-shadow: 0 20px 45px rgba(59, 130, 246, 0.1);
-    }
-
-    .brand h3 {
-      font-size: 19px;
-      font-weight: 800;
-      letter-spacing: 0.3px;
-    }
-
-    .brand p {
-      margin-top: 2px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
-
-    .nav-links a {
-      color: rgba(255,255,255,0.72);
-      text-decoration: none;
-      font-size: 14px;
-      transition: 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: #93c5fd;
-    }
-
-    .nav-btn,
-    .primary-btn,
-    .secondary-btn {
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      font-weight: 700;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-
-    .nav-btn {
-      padding: 13px 24px;
-      border-radius: 999px;
-      color: #080808;
-      background: #ffffff;
-    }
-
-    .nav-btn:hover {
-      background: #93c5fd;
-      transform: translateY(-2px);
-    }
-
-    .hero-container {
-      position: relative;
-      z-index: 4;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px 24px 40px; /* Padding kam ki gayi vertical */
-      min-height: auto; 
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      align-items: center;
-      gap: 60px;
-    }
-
-    .hero-content {
-      animation: fadeUp 0.9s ease both;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 15px; /* Thoda chota kiya gaya */
-      margin-bottom: 20px; /* Margin kam kiya gaya */
-      border-radius: 999px;
-      border: 1px solid rgba(59, 130, 246, 0.28);
-      background: rgba(255,255,255,0.08);
-      color: #ffffff; 
-      font-size: 13px;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 18px 45px rgba(59, 130, 246, 0.06);
-    }
-
-    .eyebrow span {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #3b82f6;
-      box-shadow: 0 0 18px #3b82f6;
-      animation: pulse 1.8s ease-in-out infinite;
-    }
-
-    .hero-content h1 {
-      max-width: 720px;
-      font-size: clamp(34px, 4.5vw, 58px); /* Size thoda kam kiya gaya height bachane ke liye */
-      line-height: 1.1;
-      letter-spacing: -2px;
-      font-weight: 800;
-      color: #ffffff; 
-    }
-
-    .hero-content h1 span {
-      display: block;
-      background: linear-gradient(90deg, #93c5fd, #3b82f6, #ffffff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero-content p {
-      max-width: 650px;
-      margin-top: 18px; /* Margin kam kiya gaya */
-      color: #ffffff; 
-      font-size: clamp(15px, 1.6vw, 18px);
-      line-height: 1.6;
-    }
-
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 28px; /* Margin kam kiya gaya */
-      flex-wrap: wrap;
-    }
-
-    .primary-btn,
-    .secondary-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px; /* Height kam ki gayi 52px se */
-      padding: 0 50px; /* Width barhane ke liye padding zyada ki gayi */
-      min-width: 220px; /* Minimum width set ki gayi */
-      border-radius: 999px;
-      font-size: 16px; /* Font size thora barhaya */
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Light Shine Animation Styling */
-    .primary-btn::after, .secondary-btn::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -150%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
-      transform: skewX(-25deg);
-      transition: 0.75s cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: none;
-    }
-
-    .primary-btn:hover::after, .secondary-btn:hover::after {
-      left: 150%;
-    }
-
-    .primary-btn {
-      color: #ffffff;
-      background: linear-gradient(145deg, #3b82f6, #1d4ed8);
-      box-shadow: 0 6px 0 #1e3a8a, 0 10px 25px rgba(59, 130, 246, 0.3);
-      transform: translateY(0);
-      transition: all 0.15s ease;
-    }
-
-    .primary-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 0 #1e3a8a, 0 20px 40px rgba(59, 130, 246, 0.4);
-      filter: brightness(1.1);
-    }
-
-    .primary-btn:active {
-      transform: translateY(6px);
-      box-shadow: 0 0 0 #1e3a8a, 0 5px 10px rgba(59, 130, 246, 0.4);
-    }
-
-    .secondary-btn {
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(12px);
-    }
-
-    .secondary-btn:hover {
-      background: rgba(255,255,255,0.15);
-      transform: translateY(-4px);
-      border-color: rgba(255,255,255,0.4);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-    }
-
-    .secondary-btn:active {
-      transform: translateY(-2px) scale(0.98);
-    }
-
-    .service-tags {
-      margin-top: 30px; /* Margin kam kiya gaya */
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      max-width: 650px;
-    }
-
-    .service-tags div {
-      padding: 10px 8px;
-      text-align: center;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.06);
-      color: #ffffff; 
-      font-size: 12px;
-      backdrop-filter: blur(10px);
-      transition: 0.3s ease;
-    }
-
-    .service-tags div:hover {
-      color: #93c5fd;
-      border-color: rgba(59, 130, 246, 0.35);
-      transform: translateY(-4px);
-    }
-
-    .hero-visual {
-      position: relative;
-      animation: fadeScale 1s ease 0.15s both;
-    }
-
-    .image-card {
-      position: relative;
-      padding: 12px;
-      border-radius: 36px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.08);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-      backdrop-filter: blur(18px);
-      overflow: hidden;
-    }
-
-    .image-card::before {
-      content: "";
-      position: absolute;
-      inset: -90px;
-      background: conic-gradient(from 180deg, transparent, rgba(59, 130, 246, 0.28), transparent 35%);
-      animation: rotateGlow 7s linear infinite;
-    }
-
-    .image-frame {
-      position: relative;
-      height: 350px; /* Height kam ki gayi 420px se */
-      border-radius: 28px;
-      overflow: hidden;
-      background: #0a192f;
-      isolation: isolate;
-    }
-
-    .image-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: contrast(1.08) saturate(0.92) brightness(0.82);
-      transform: scale(1.04);
-      animation: slowZoom 8s ease-in-out infinite alternate;
-    }
-
-    .image-frame::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,10,30,0.64));
-      z-index: 1;
-    }
-
-    .floating-badge,
-    .rating-card {
-      position: absolute;
-      z-index: 3;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 22px 55px rgba(0,0,0,0.28);
-      animation: float 4s ease-in-out infinite;
-    }
-
-    .floating-badge {
-      top: 24px;
-      right: 24px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      color: #ffffff; 
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .rating-card {
-      left: 24px;
-      bottom: 24px;
-      width: calc(100% - 48px);
-      border-radius: 20px;
-      padding: 16px;
-      animation-delay: 0.8s;
-    }
-
-    .rating-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 10px;
-    }
-
-    .rating-top h4 {
-      font-size: 15px;
-      color: #ffffff;
-    }
-
-    .stars {
-      color: #3b82f6;
-      letter-spacing: 2px;
-      font-size: 13px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .stats div {
-      padding: 10px 8px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.09);
-    }
-
-    .stats strong {
-      display: block;
-      font-size: 15px;
-      color: #93c5fd;
-    }
-
-    .stats span {
-      display: block;
-      margin-top: 4px;
-      color: #ffffff; 
-      font-size: 10px;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeScale {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.55; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.25); }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    @keyframes slowZoom {
-      from { transform: scale(1.04); }
-      to { transform: scale(1.12); }
-    }
-
-    @keyframes rotateGlow {
-      to { transform: rotate(360deg); }
-    }
-
-    @media (max-width: 980px) {
-      .nav-links {
-        display: none;
-      }
-
-      .hero-container {
-        grid-template-columns: 1fr;
-        gap: 50px;
-        padding-top: 42px;
-      }
-
-      .hero-content {
-        text-align: center;
-      }
-
-      .hero-content p,
-      .service-tags {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .hero-actions {
-        justify-content: flex-start;
-      }
-
-      .image-frame {
-        height: 380px; 
-      }
-    }
-
-    @media (max-width: 640px) {
-      .navbar {
-        padding: 20px 18px;
-      }
-
-      .brand p {
-        display: none;
-      }
-
-      .nav-btn {
-        padding: 11px 18px;
-        font-size: 14px;
-      }
-
-      .hero-container {
-        padding: 34px 18px 70px;
-      }
-
-      .hero-content h1 {
-        letter-spacing: -1.6px;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .primary-btn,
-      .secondary-btn {
-        width: auto;
-      }
-
-      .service-tags {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .image-card {
-        border-radius: 32px;
-        padding: 10px;
-      }
-
-      .image-frame {
-        height: 350px;
-        border-radius: 24px;
-      }
-
-      .floating-badge {
-        top: 22px;
-        right: 22px;
-        font-size: 12px;
-      }
-
-      .rating-card {
-        left: 18px;
-        right: 18px;
-        bottom: 18px;
-        width: auto;
-        padding: 16px;
-        border-radius: 22px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .brand h3 {
-        font-size: 16px;
-      }
-
-      .brand-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 15px;
-      }
-
-      .nav-btn {
-        padding: 10px 14px;
-      }
-
-      .eyebrow {
-        font-size: 12px;
-      }
-
-      .image-frame {
-        height: 320px;
-      }
-    }
-
- :root {
-    --blue: #1565C0;
-    --blue-dark: #0D47A1;
-    --blue-light: #1976D2;
-    --orange: #FF6F00;
-    --orange-light: #FF8F00;
-    --white: #ffffff;
-    --gray-bg: #f5f7fa;
-    --gray-light: #e8ecf0;
-    --text-dark: #1a1a2e;
-    --text-mid: #444;
-    --text-light: #777;
-    --green: #2e7d32;
-    --shadow: 0 4px 20px rgba(0,0,0,0.10);
-    --radius: 12px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: 'Open Sans', sans-serif; color: var(--text-dark); background: #fff; }
-  a { text-decoration:none; color:inherit; }
-
-  /* SECTION */
-  section { padding: 70px 40px; }
-  .section-title { text-align:center; margin-bottom:50px; }
-  .section-title h2 { font-family:'Montserrat',sans-serif; font-size:34px; font-weight:800; color:var(--text-dark); margin-bottom:10px; }
-  .section-title p { color:var(--text-light); font-size:16px; max-width:560px; margin:0 auto; }
-  .section-title .accent { color:var(--orange); }
-
-  /* WHY CHOOSE */
-  .why-section { background: var(--gray-bg); }
-  .features-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:24px; max-width:1100px; margin:0 auto; }
-  .feature-card {
-    background:#fff; border-radius:var(--radius); padding:30px 24px;
-    box-shadow: var(--shadow); transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-    position: relative; 
-    overflow: hidden;
-  }
-  
-  .feature-card::before, .service-card::before, .testimonial-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 0;
-    height: 4px;
-    background-color: var(--blue);
-    transition: width 0.4s ease, left 0.4s ease;
-    z-index: 1;
-  }
-
-  .feature-card:hover::before, .service-card:hover::before, .testimonial-card:hover::before {
-    width: 100%;
-    left: 0;
-  }
-
-  .feature-card:hover { transform:translateY(-6px); box-shadow:0 15px 35px rgba(0,0,0,0.15); }
-  .feature-icon { width:54px; height:54px; background:linear-gradient(135deg,var(--blue),var(--blue-light)); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:26px; margin-bottom:16px; }
-  .feature-card h3 { font-family:'Montserrat',sans-serif; font-size:16px; font-weight:700; margin-bottom:8px; color:var(--text-dark); }
-  .feature-card p { font-size:13.5px; color:var(--text-light); line-height:1.7; }
-
-  /* SERVICES */
-  .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1100px; margin:0 auto; }
-  .service-card {
-    background:#fff; border-radius:var(--radius); padding:28px 24px;
-    box-shadow: var(--shadow); border:2px solid var(--gray-light);
-    transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-  }
-  .service-card:hover { border-color:var(--blue); box-shadow:0 8px 28px rgba(21,101,192,0.15); transform:translateY(-5px); }
-  .service-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-  .service-icon { font-size:28px; }
-  .service-card h3 { font-family:'Montserrat',sans-serif; font-size:16px; font-weight:700; color:var(--blue-dark); }
-  .service-list { list-style:none; }
-  .service-list li { font-size:13px; color:var(--text-mid); padding:5px 0; display:flex; align-items:center; gap:8px; border-bottom:1px solid #f0f0f0; }
-  .service-list li:last-child { border:none; }
-  .service-list li::before { content:'✓'; color:var(--green); font-weight:700; font-size:13px; flex-shrink:0; }
-
-  /* STATS */
-  .stats-section { background:linear-gradient(135deg, var(--blue-dark), var(--blue)); }
-  .stats-section .section-title h2 { color:#fff; }
-  .stats-section .section-title p { color:rgba(255,255,255,0.75); }
-  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; max-width:900px; margin:0 auto; }
-  .stat-item { text-align:center; }
-  .stat-num { font-family:'Montserrat',sans-serif; font-size:48px; font-weight:900; color:#fff; line-height:1; margin-bottom:6px; }
-  .stat-num span { color:var(--orange); }
-  .stat-label { color:rgba(255,255,255,0.8); font-size:14px; font-weight:600; }
-
-  /* STEPS SECTION (Flip Card Styling) */
-  .steps-section { background:var(--gray-bg); }
-  .steps-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; max-width:1000px; margin:0 auto; }
-  
-  .step-card {
-    height: 280px;
-    perspective: 1000px;
-    background: transparent;
-  }
-
-  .step-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-style: preserve-3d;
-    cursor: pointer;
-  }
-
-  .step-card:hover .step-card-inner {
-    transform: rotateY(180deg);
-  }
-
-  .step-card-front, .step-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    border-radius: var(--radius);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    box-shadow: var(--shadow);
-  }
-
-  .step-card-front {
-    background-color: #fff;
-    color: var(--text-dark);
-  }
-
-  .step-card-back {
-    background-color: var(--blue);
-    color: #fff;
-    transform: rotateY(180deg);
-  }
-
-  .step-num {
-    width:56px; height:56px; background:var(--blue); color:#fff;
-    border-radius:50%; display:flex; align-items:center; justify-content:center;
-    font-family:'Montserrat',sans-serif; font-size:22px; font-weight:800;
-    margin-bottom: 16px;
-  }
-
-  .step-card-front h3 { font-family:'Montserrat',sans-serif; font-size:16px; font-weight:700; margin: 0; }
-  .step-card-back p { font-size:14px; line-height:1.6; margin: 0; font-weight: 500; }
-
-  /* TESTIMONIALS (Blue side border removed as requested) */
-  .testimonials-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1100px; margin:0 auto; }
-  .testimonial-card {
-    background:#fff; border-radius:var(--radius); padding:24px;
-    box-shadow:var(--shadow);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .testimonial-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-  }
-  .stars { color:#FFA000; font-size:16px; margin-bottom:10px; }
-  .testimonial-card p { font-size:13.5px; color:var(--text-mid); line-height:1.7; margin-bottom:14px; font-style:italic; }
-  .reviewer { font-weight:700; font-size:13px; color:var(--blue-dark); }
-  .reviewer-city { font-size:12px; color:var(--text-light); }
-
-  /* CONTACT */
-  .contact-section { background:var(--gray-bg); }
-  .contact-wrapper { display:grid; grid-template-columns:1fr 1.6fr; gap:50px; max-width:1000px; margin:0 auto; }
-  .contact-info h3 { font-family:'Montserrat',sans-serif; font-size:20px; font-weight:700; margin-bottom:20px; }
-  .contact-info-item { display:flex; gap:14px; margin-bottom:18px; align-items:flex-start; }
-  .ci-icon { width:40px; height:40px; background:var(--blue); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
-  .ci-text strong { display:block; font-size:13.5px; color:var(--text-dark); }
-  .ci-text span { font-size:13px; color:var(--text-light); }
-  .contact-form { background:#fff; border-radius:var(--radius); padding:36px; box-shadow:var(--shadow); }
-  .contact-form h3 { font-family:'Montserrat',sans-serif; font-size:20px; font-weight:700; margin-bottom:24px; }
-  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
-  .form-group { margin-bottom:16px; }
-  .form-group label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--text-mid); }
-  .form-group input, .form-group select, .form-group textarea {
-    width:100%; padding:11px 14px; border:1.5px solid #ddd; border-radius:8px;
-    font-size:13.5px; font-family:'Open Sans',sans-serif; outline:none;
-    transition:border-color 0.2s;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--blue); }
-  .form-group textarea { height:90px; resize:vertical; }
-  .form-submit { background:var(--orange); color:#fff; border:none; padding:14px 28px; border-radius:8px; font-size:15px; font-weight:700; width:100%; cursor:pointer; font-family:'Montserrat',sans-serif; transition:background 0.2s; }
-  .form-submit:hover { background:var(--orange-light); }
-
-  @media (max-width:900px) {
-    .features-grid, .services-grid, .testimonials-grid { grid-template-columns:1fr 1fr; }
-    .stats-grid, .steps-grid { grid-template-columns:1fr 1fr; }
-    .contact-wrapper { grid-template-columns:1fr; }
-    .footer-grid { grid-template-columns:1fr 1fr; }
-    nav { padding:0 20px; }
-    .nav-links { display:none; }
-    .hero h1 { font-size:32px; }
-    section { padding:50px 20px; }
-  }
-
-/* Footer Responsiveness Fix */
-@media (max-width: 768px) {
-    .logo-buttonfoofon {
-        flex-direction: column; 
-        gap: 10px;
-    }
-
-    .service-navfoofon {
-        grid-template-columns: 1fr; 
-        width: 100%;
-        padding: 0 20px;
-    }
-
-    .service-navfoofon a {
-        width: 100%; 
-    }
-
-    .logo-3dfoofon {
-        font-size: 2rem; 
-    }
-}
-
-@media (max-width: 480px) {
-    .copyright-boxfoofon {
-        padding: 10px 20px;
-        font-size: 0.75rem;
-        border-radius: 20px; 
-    }
-}
-
     </style>
 </head>
 <body>
 
+    <!-- Navbar -->
     <nav class="ser-navbar">
         <div class="ser-nav-container">
-            
             <a href="index.html" class="ser-logo-section">
                 <div class="ser-image-container">
                     <img src="image/logo2.png" alt="TrustWay Logo" onerror="this.src='https://via.placeholder.com/50?text=TW'">
@@ -1263,26 +470,21 @@
 
             <ul class="ser-nav-menu" id="navMenu">
                 <li><a href="#" class="ser-nav-link">Home</a></li>
-                
                 <li class="ser-dropdown-container" id="servicesDropdown">
                     <button class="ser-dropdown-trigger">
                         Services <span class="ser-n-arrow">▼</span>
                     </button>
                     <ul class="ser-dropdown">
                         <li><a href="HVAC.html">HVAC</a></li>
-                       
                         <li><a href="Appliance.html">Appliance</a></li>
                         <li><a href="Window.html">Window Installation</a></li>
-                        
                         <li><a href="Handyman.html">Handyman</a></li>
                         <li><a href="Plumber.html">Plumber</a></li>
-                        
                     </ul>
                 </li>
-
                 <li><a href="Reviews.html" class="ser-nav-link">Trusted Reviews</a></li>
                 <li><a href="Team.html" class="ser-nav-link">Meet The Team</a></li>
-                <li><a href="tel:+1 866 489 0058" class="ser-call-btn">Contact Us</a></li>
+                <li><a href="tel:+18664890058" class="ser-call-btn">Contact Us</a></li>
             </ul>
 
             <button class="ser-menu-toggle" id="menuToggle">
@@ -1291,384 +493,363 @@
         </div>
     </nav>
 
- <section class="hero">
-    <div class="hero-container">
-      <div class="hero-content">
-        <div class="eyebrow"><span></span> Same Day Luxury Appliance Services</div>
-
-        <h1>
-          Premium Appliance Repair,
-          <span>Done With Class.</span>
-        </h1>
-
-        <p>
-          Expert repair and maintenance for air conditioners, refrigerators, washing machines, ovens, and kitchen appliances — delivered by certified technicians with a premium service experience.
-        </p>
-
-        <div class="hero-actions">
-          <a href="tel:+1 866 489 0058" class="primary-btn">Call Now</a>
-        </div>
-
-        <div class="service-tags">
-          <div>AC Repair</div>
-          <div>Refrigerator</div>
-          <div>Washing Machine</div>
-          <div>Microwave</div>
-        </div>
-      </div>
-
-      <div class="hero-visual">
-        <div class="image-card">
-          <div class="image-frame">
-            <img src="https://images.stockcake.com/public/4/8/2/4822affb-f258-4adb-b83f-8796f8f95af9_large/appliance-repair-team-stockcake.jpg" alt="Professional appliance service technician">
-            <div class="floating-badge">24/7 Support</div>
-            <div class="rating-card">
-              <div class="rating-top">
-                <h4>Trusted Home Experts</h4>
-                <div class="stars">★★★★★</div>
-              </div>
-              <div class="stats">
-                <div>
-                  <strong class="stat-num">4.9/5</strong>
-                  <span>Customer Rating</span>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="eyebrow"><span></span> Same Day Luxury Appliance Services</div>
+                <h1>
+                    Premium Appliance Repair,
+                    <span>Done With Class.</span>
+                </h1>
+                <p>
+                    Expert repair and maintenance for air conditioners, refrigerators, washing machines, ovens, and kitchen appliances — delivered by certified technicians with a premium service experience.
+                </p>
+                <div class="hero-actions">
+                    <a href="tel:+18664890058" class="primary-btn">Call Now</a>
                 </div>
-                <div>
-                  <strong class="stat-num">90 Days</strong>
-                  <span>Service Warranty</span>
+                <div class="service-tags">
+                    <div>AC Repair</div>
+                    <div>Refrigerator</div>
+                    <div>Washing Machine</div>
+                    <div>Microwave</div>
                 </div>
-                <div>
-                  <strong>Fast</strong>
-                  <span>Arrival Time</span>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-<!-- WHY CHOOSE -->
-<section class="why-section" id="why">
-  <div class="section-title">
-    <h2>Why Choose <span class="accent">OneRepair?</span></h2>
-    <p>We combine expert technicians, quality parts, and outstanding service to deliver the best appliance repair experience in the USA. Your satisfaction is our priority.</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">⚡</div>
-      <h3>Same-Day Service</h3>
-      <p>We understand your time matters. Our technicians are available 7 days a week to provide fast, reliable same-day appliance repairs at your convenience.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🎓</div>
-      <h3>Certified Experts</h3>
-      <p>Our professionally certified technicians have years of hands-on experience repairing all makes and models of home appliances with precision.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">💲</div>
-      <h3>Transparent Pricing</h3>
-      <p>No hidden fees — ever. We provide upfront, honest pricing before any work begins so you always know exactly what you're paying for.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🛡️</div>
-      <h3>90-Day Warranty</h3>
-      <p>Every repair comes backed by our 90-day warranty on parts and labor, giving you complete peace of mind and confidence in our work.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔧</div>
-      <h3>All Major Brands</h3>
-      <p>We service all leading appliance brands including GE, Whirlpool, Samsung, LG, Bosch, Maytag, KitchenAid, Kenmore, and many more.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📅</div>
-      <h3>Easy Scheduling</h3>
-      <p>Book online or call us anytime. Our flexible scheduling system lets you pick the time slot that works best for your busy lifestyle.</p>
-    </div>
-  </div>
-</section>
+            <div class="hero-visual">
+                <div class="image-card">
+                    <div class="image-frame">
+                        <img src="https://images.stockcake.com/public/4/8/2/4822affb-f258-4adb-b83f-8796f8f95af9_large/appliance-repair-team-stockcake.jpg" alt="Professional appliance service technician">
+                        <div class="floating-badge">24/7 Support</div>
+                        <div class="rating-card">
+                            <div class="rating-top">
+                                <h4>Trusted Home Experts</h4>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                            <div class="stats">
+                                <div>
+                                    <strong class="stat-num">4.9/5</strong>
+                                    <span>Customer Rating</span>
+                                </div>
+                                <div>
+                                    <strong class="stat-num">90 Days</strong>
+                                    <span>Service Warranty</span>
+                                </div>
+                                <div>
+                                    <strong>Fast</strong>
+                                    <span>Arrival Time</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- SERVICES -->
-<section id="services">
-  <div class="section-title">
-    <h2>Our Comprehensive <span class="accent">Repair Services</span></h2>
-    <p>From refrigerators to dishwashers, we fix it all with expertise and care.</p>
-  </div>
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">❄️</div><h3>Refrigerator Repair</h3></div>
-      <ul class="service-list">
-        <li>Not cooling properly</li>
-        <li>Ice maker not working</li>
-        <li>Water dispenser issues</li>
-        <li>Strange noises</li>
-        <li>Compressor problems</li>
-        <li>Door seal replacement</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">🌀</div><h3>Washing Machine Repair</h3></div>
-      <ul class="service-list">
-        <li>Won't spin or drain</li>
-        <li>Leaking water</li>
-        <li>Drum not turning</li>
-        <li>Excessive vibration</li>
-        <li>Control panel issues</li>
-        <li>Broken door latch</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">🔥</div><h3>Oven & Stove Repair</h3></div>
-      <ul class="service-list">
-        <li>Burner not igniting</li>
-        <li>Uneven heating</li>
-        <li>Temperature issues</li>
-        <li>Oven not heating</li>
-        <li>Control knob damage</li>
-        <li>Display problems</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">💨</div><h3>Dryer Repair</h3></div>
-      <ul class="service-list">
-        <li>Not heating up</li>
-        <li>Takes too long to dry</li>
-        <li>Making loud noises</li>
-        <li>Drum won't spin</li>
-        <li>Overheating issue</li>
-        <li>Lint trap problems</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">🍽️</div><h3>Dishwasher Repair</h3></div>
-      <ul class="service-list">
-        <li>Not cleaning dishes</li>
-        <li>Won't fill with water</li>
-        <li>Door won't latch</li>
-        <li>Water not draining</li>
-        <li>Noisy operation</li>
-        <li>Control board issues</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">📡</div><h3>Microwave Repair</h3></div>
-      <ul class="service-list">
-        <li>Not heating food</li>
-        <li>Turntable not rotating</li>
-        <li>Sparking inside</li>
-        <li>Display not working</li>
-        <li>Door switch issues</li>
-        <li>Unusual noises</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">🧊</div><h3>Freezer Repair</h3></div>
-      <ul class="service-list">
-        <li>Excessive frost buildup</li>
-        <li>Not freezing items</li>
-        <li>Running constantly</li>
-        <li>Strange noises</li>
-        <li>Leaking water</li>
-        <li>Broken door seal</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">♻️</div><h3>Garbage Disposal Repair</h3></div>
-      <ul class="service-list">
-        <li>Jammed disposal</li>
-        <li>Making humming noise</li>
-        <li>Not turning on</li>
-        <li>Leaking from bottom</li>
-        <li>Draining slowly</li>
-        <li>Foul odors</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">🧊</div><h3>Ice Maker Repair</h3></div>
-      <ul class="service-list">
-        <li>Not producing ice</li>
-        <li>Ice cubes are small</li>
-        <li>Water leaking</li>
-        <li>Making loud noises</li>
-        <li>Freezing up</li>
-        <li>Dispenser not working</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">🍷</div><h3>Wine Cooler Repair</h3></div>
-      <ul class="service-list">
-        <li>Not cooling properly</li>
-        <li>Compressor issues</li>
-        <li>Door won't close</li>
-        <li>Vibrating too much</li>
-        <li>Interior light broken</li>
-        <li>Thermostat problems</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">💨</div><h3>Range Hood Repair</h3></div>
-      <ul class="service-list">
-        <li>Fan not working</li>
-        <li>Motor humming</li>
-        <li>Light won't turn on</li>
-        <li>Poor ventilation</li>
-        <li>Excessive noise</li>
-        <li>Control switch broken</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-header"><div class="service-icon">🗑️</div><h3>Trash Compactor Repair</h3></div>
-      <ul class="service-list">
-        <li>Won't turn on</li>
-        <li>Ram stuck down</li>
-        <li>Door won't open</li>
-        <li>Making unusual noises</li>
-        <li>Not compacting fully</li>
-        <li>Bad smells</li>
-      </ul>
-    </div>
-  </div>
-</section>
+    <!-- WHY CHOOSE -->
+    <section class="why-section" id="why">
+        <div class="section-title">
+            <h2>Why Choose <span class="accent">OneRepair?</span></h2>
+            <p>We combine expert technicians, quality parts, and outstanding service to deliver the best appliance repair experience in the USA. Your satisfaction is our priority.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Same-Day Service</h3>
+                <p>We understand your time matters. Our technicians are available 7 days a week to provide fast, reliable same-day appliance repairs at your convenience.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎓</div>
+                <h3>Certified Experts</h3>
+                <p>Our professionally certified technicians have years of hands-on experience repairing all makes and models of home appliances with precision.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💲</div>
+                <h3>Transparent Pricing</h3>
+                <p>No hidden fees — ever. We provide upfront, honest pricing before any work begins so you always know exactly what you're paying for.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>90-Day Warranty</h3>
+                <p>Every repair comes backed by our 90-day warranty on parts and labor, giving you complete peace of mind and confidence in our work.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>All Major Brands</h3>
+                <p>We service all leading appliance brands including GE, Whirlpool, Samsung, LG, Bosch, Maytag, KitchenAid, Kenmore, and many more.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Easy Scheduling</h3>
+                <p>Book online or call us anytime. Our flexible scheduling system lets you pick the time slot that works best for your busy lifestyle.</p>
+            </div>
+        </div>
+    </section>
 
-<!-- STATS -->
-<section class="stats-section">
-  <div class="section-title">
-    <h2>Our Track Record Speaks for Itself</h2>
-    <p>With over 15 years of experience, we are America's most trusted appliance repair service.</p>
-  </div>
-  <div class="stats-grid">
-    <div class="stat-item">
-      <div class="stat-num">15<span>+</span></div>
-      <div class="stat-label">Years in Business</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">50K<span>+</span></div>
-      <div class="stat-label">Repairs Completed</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">98<span>%</span></div>
-      <div class="stat-label">Customer Satisfaction</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">24<span>/7</span></div>
-      <div class="stat-label">Emergency Service</div>
-    </div>
-  </div>
-</section>
+    <!-- SERVICES -->
+    <section id="services">
+        <div class="section-title">
+            <h2>Our Comprehensive <span class="accent">Repair Services</span></h2>
+            <p>From refrigerators to dishwashers, we fix it all with expertise and care.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">❄️</div><h3>Refrigerator Repair</h3></div>
+                <ul class="service-list">
+                    <li>Not cooling properly</li>
+                    <li>Ice maker not working</li>
+                    <li>Water dispenser issues</li>
+                    <li>Strange noises</li>
+                    <li>Compressor problems</li>
+                    <li>Door seal replacement</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">🌀</div><h3>Washing Machine Repair</h3></div>
+                <ul class="service-list">
+                    <li>Won't spin or drain</li>
+                    <li>Leaking water</li>
+                    <li>Drum not turning</li>
+                    <li>Excessive vibration</li>
+                    <li>Control panel issues</li>
+                    <li>Broken door latch</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">🔥</div><h3>Oven & Stove Repair</h3></div>
+                <ul class="service-list">
+                    <li>Burner not igniting</li>
+                    <li>Uneven heating</li>
+                    <li>Temperature issues</li>
+                    <li>Oven not heating</li>
+                    <li>Control knob damage</li>
+                    <li>Display problems</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">💨</div><h3>Dryer Repair</h3></div>
+                <ul class="service-list">
+                    <li>Not heating up</li>
+                    <li>Takes too long to dry</li>
+                    <li>Making loud noises</li>
+                    <li>Drum won't spin</li>
+                    <li>Overheating issue</li>
+                    <li>Lint trap problems</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">🍽️</div><h3>Dishwasher Repair</h3></div>
+                <ul class="service-list">
+                    <li>Not cleaning dishes</li>
+                    <li>Won't fill with water</li>
+                    <li>Door won't latch</li>
+                    <li>Water not draining</li>
+                    <li>Noisy operation</li>
+                    <li>Control board issues</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">📡</div><h3>Microwave Repair</h3></div>
+                <ul class="service-list">
+                    <li>Not heating food</li>
+                    <li>Turntable not rotating</li>
+                    <li>Sparking inside</li>
+                    <li>Display not working</li>
+                    <li>Door switch issues</li>
+                    <li>Unusual noises</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">🧊</div><h3>Freezer Repair</h3></div>
+                <ul class="service-list">
+                    <li>Excessive frost buildup</li>
+                    <li>Not freezing items</li>
+                    <li>Running constantly</li>
+                    <li>Strange noises</li>
+                    <li>Leaking water</li>
+                    <li>Broken door seal</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">♻️</div><h3>Garbage Disposal Repair</h3></div>
+                <ul class="service-list">
+                    <li>Jammed disposal</li>
+                    <li>Making humming noise</li>
+                    <li>Not turning on</li>
+                    <li>Leaking from bottom</li>
+                    <li>Draining slowly</li>
+                    <li>Foul odors</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">🧊</div><h3>Ice Maker Repair</h3></div>
+                <ul class="service-list">
+                    <li>Not producing ice</li>
+                    <li>Ice cubes are small</li>
+                    <li>Water leaking</li>
+                    <li>Making loud noises</li>
+                    <li>Freezing up</li>
+                    <li>Dispenser not working</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">🍷</div><h3>Wine Cooler Repair</h3></div>
+                <ul class="service-list">
+                    <li>Not cooling properly</li>
+                    <li>Compressor issues</li>
+                    <li>Door won't close</li>
+                    <li>Vibrating too much</li>
+                    <li>Interior light broken</li>
+                    <li>Thermostat problems</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">💨</div><h3>Range Hood Repair</h3></div>
+                <ul class="service-list">
+                    <li>Fan not working</li>
+                    <li>Motor humming</li>
+                    <li>Light won't turn on</li>
+                    <li>Poor ventilation</li>
+                    <li>Excessive noise</li>
+                    <li>Control switch broken</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-header"><div class="service-icon">🗑️</div><h3>Trash Compactor Repair</h3></div>
+                <ul class="service-list">
+                    <li>Won't turn on</li>
+                    <li>Ram stuck down</li>
+                    <li>Door won't open</li>
+                    <li>Making unusual noises</li>
+                    <li>Not compacting fully</li>
+                    <li>Bad smells</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-<!-- HOW IT WORKS (Updated to Flip Cards) -->
-<section class="steps-section" id="process">
-  <div class="section-title">
-    <h2>Simple <span class="accent">4-Step Process</span></h2>
-    <p>Getting your appliance fixed is quick and easy. Follow these simple steps.</p>
-  </div>
-  <div class="steps-grid">
-    <!-- Step 1 -->
-    <div class="step-card">
-      <div class="step-card-inner">
-        <div class="step-card-front">
-          <div class="step-num">1</div>
-          <h3>Contact Us</h3>
+    <!-- STATS -->
+    <section class="stats-section">
+        <div class="section-title">
+            <h2>Our Track Record Speaks for Itself</h2>
+            <p>With over 15 years of experience, we are America's most trusted appliance repair service.</p>
         </div>
-        <div class="step-card-back">
-          <p>Call us or fill out our online form. Tell us about your appliance issue and preferred service time.</p>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-num">15<span>+</span></div>
+                <div class="stat-label">Years in Business</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">50K<span>+</span></div>
+                <div class="stat-label">Repairs Completed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">98<span>%</span></div>
+                <div class="stat-label">Customer Satisfaction</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">24<span>/7</span></div>
+                <div class="stat-label">Emergency Service</div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- Step 2 -->
-    <div class="step-card">
-      <div class="step-card-inner">
-        <div class="step-card-front">
-          <div class="step-num">2</div>
-          <h3>Schedule Service</h3>
-        </div>
-        <div class="step-card-back">
-          <p>Choose a convenient appointment slot. We offer same-day and next-day options for your schedule.</p>
-        </div>
-      </div>
-    </div>
-    <!-- Step 3 -->
-    <div class="step-card">
-      <div class="step-card-inner">
-        <div class="step-card-front">
-          <div class="step-num">3</div>
-          <h3>Expert Diagnosis</h3>
-        </div>
-        <div class="step-card-back">
-          <p>Our certified technician arrives on time, diagnoses the problem, and provides a transparent quote.</p>
-        </div>
-      </div>
-    </div>
-    <!-- Step 4 -->
-    <div class="step-card">
-      <div class="step-card-inner">
-        <div class="step-card-front">
-          <div class="step-num">4</div>
-          <h3>Professional Repair</h3>
-        </div>
-        <div class="step-card-back">
-          <p>We complete the repair using genuine parts, backed by our 90-day warranty for total peace of mind.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- TESTIMONIALS -->
-<section id="reviews">
-  <div class="section-title">
-    <h2>What Our Customers <span class="accent">Say</h2>
-    <p>Real reviews from real customers across the United States who trust OneRepair.</p>
-  </div>
-  <div class="testimonials-grid">
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p>The technician showed up on time and fixed my refrigerator in under an hour. Very professional and the pricing was exactly as quoted. Highly recommend!</p>
-      <div class="reviewer">— Jennifer K., New York</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p>My washing machine stopped draining and they came out the same day. Fast, friendly service and the repair has held up perfectly. Will definitely use again.</p>
-      <div class="reviewer">— Ahmed R., Los Angeles</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p>These guys are fantastic. Fixed my oven before Thanksgiving — saved the holiday! Transparent pricing, no surprises. This is now my go-to repair company.</p>
-      <div class="reviewer">— Susan M., Chicago</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p>Incredibly knowledgeable technician who explained everything clearly. My dryer is working like new. Excellent value and outstanding customer service throughout.</p>
-      <div class="reviewer">— Marcus T., Houston</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p>I called at 8pm on a Sunday and they sent someone out within 2 hours! My refrigerator is fixed and they were super professional the whole time. Amazing!</p>
-      <div class="reviewer">— Emily P., Phoenix</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p>The best appliance repair experience I've ever had. Arrived on time, diagnosed correctly the first time, and the 90-day warranty gives real peace of mind. 10/10!</p>
-      <div class="reviewer">— David L., Seattle</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p>Absolutely stellar experience! My wine cooler stopped chilling, and they had it running perfectly the very same day. The tech was very knowledgeable.</p>
-      <div class="reviewer">— Robert W., Miami</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p>Transparent pricing and no hidden fees. I knew exactly what my freezer repair would cost before they started. Very honest and reliable company.</p>
-      <div class="reviewer">— Sarah J., Denver</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p>The best service I've ever had for a home appliance. They fixed my jammed garbage disposal in 20 minutes. I will definitely be calling them again!</p>
-      <div class="reviewer">— Michael B., Atlanta</div>
-    </div>
-  </div>
-</section>
+    <!-- HOW IT WORKS -->
+    <section class="steps-section" id="process">
+        <div class="section-title">
+            <h2>Simple <span class="accent">4-Step Process</span></h2>
+            <p>Getting your appliance fixed is quick and easy. Follow these simple steps.</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-card-inner">
+                    <div class="step-card-front">
+                        <div class="step-num">1</div>
+                        <h3>Contact Us</h3>
+                    </div>
+                    <div class="step-card-back">
+                        <p>Call us or fill out our online form. Tell us about your appliance issue and preferred service time.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-card-inner">
+                    <div class="step-card-front">
+                        <div class="step-num">2</div>
+                        <h3>Schedule Service</h3>
+                    </div>
+                    <div class="step-card-back">
+                        <p>Choose a convenient appointment slot. We offer same-day and next-day options for your schedule.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-card-inner">
+                    <div class="step-card-front">
+                        <div class="step-num">3</div>
+                        <h3>Expert Diagnosis</h3>
+                    </div>
+                    <div class="step-card-back">
+                        <p>Our certified technician arrives on time, diagnoses the problem, and provides a transparent quote.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-card-inner">
+                    <div class="step-card-front">
+                        <div class="step-num">4</div>
+                        <h3>Professional Repair</h3>
+                    </div>
+                    <div class="step-card-back">
+                        <p>We complete the repair using genuine parts, backed by our 90-day warranty for total peace of mind.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- TESTIMONIALS -->
+    <section id="reviews">
+        <div class="section-title">
+            <h2>What Our Customers <span class="accent">Say</span></h2>
+            <p>Real reviews from real customers across the United States who trust OneRepair.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>The technician showed up on time and fixed my refrigerator in under an hour. Very professional and the pricing was exactly as quoted. Highly recommend!</p>
+                <div class="reviewer">— Jennifer K., New York</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>My washing machine stopped draining and they came out the same day. Fast, friendly service and the repair has held up perfectly. Will definitely use again.</p>
+                <div class="reviewer">— Ahmed R., Los Angeles</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>These guys are fantastic. Fixed my oven before Thanksgiving — saved the holiday! Transparent pricing, no surprises. This is now my go-to repair company.</p>
+                <div class="reviewer">— Susan M., Chicago</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>Incredibly knowledgeable technician who explained everything clearly. My dryer is working like new. Excellent value and outstanding customer service throughout.</p>
+                <div class="reviewer">— Marcus T., Houston</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>I called at 8pm on a Sunday and they sent someone out within 2 hours! My refrigerator is fixed and they were super professional the whole time. Amazing!</p>
+                <div class="reviewer">— Emily P., Phoenix</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>The best appliance repair experience I've ever had. Arrived on time, diagnosed correctly the first time, and the 90-day warranty gives real peace of mind. 10/10!</p>
+                <div class="reviewer">— David L., Seattle</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="footer-containerfoofon">
         <div class="curve-dividerfoofon">
             <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
@@ -1676,7 +857,7 @@
             </svg>
         </div>
 
-        <div class="containerfoofon" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+        <div style="display: flex; flex-direction: column; align-items: center; width: 100%; z-index: 2;">
             <a href="index.html" class="logo-buttonfoofon">
                 <div class="logo-img-3dfoofon">
                     <img src="image/logo2.png" alt="TrustWay Logo" onerror="this.src='https://via.placeholder.com/50?text=TW'">
@@ -1688,10 +869,10 @@
             </a>
 
             <nav class="service-navfoofon">
-               <a href="Plumber.html">Plumber Service</a>
+                <a href="Plumber.html">Plumber Service</a>
                 <a href="Handyman.html">Handyman</a>
                 <a href="HVAC.html">HVAC Installation</a>
-               <a href="Appliance.html">Appliance</a>
+                <a href="Appliance.html">Appliance</a>
                 <a href="Window.html">Window Installation</a>
             </nav>
 
@@ -1704,6 +885,7 @@
     </footer>
 
     <script>
+        // Navbar Toggle
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
         const servicesDropdown = document.getElementById('servicesDropdown');
@@ -1736,22 +918,24 @@
             if (window.innerWidth > 992) {
                 navMenu.classList.remove('ser-active');
                 servicesDropdown.classList.remove('ser-mobile-open');
+                const spans = menuToggle.getElementsByTagName('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
             }
         });
 
-        // --- Counter Animation Script ---
+        // Counter Animation
         const animateNumbers = (elements) => {
             elements.forEach(el => {
                 const span = el.querySelector('span');
                 const spanHTML = span ? span.outerHTML : '';
-                
-                // Text extraction
                 const clone = el.cloneNode(true);
                 if (clone.querySelector('span')) clone.querySelector('span').remove();
-                const fullText = clone.innerText.trim();
                 
-                // Numbers match (integers or decimals)
+                const fullText = clone.innerText.trim();
                 const match = fullText.match(/(\d+(\.\d+)?)/);
+                
                 if (match) {
                     const targetValue = parseFloat(match[1]);
                     const prefix = fullText.substring(0, match.index);
@@ -1766,22 +950,16 @@
                         const easedProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
                         
                         const currentRaw = easedProgress * targetValue;
-                        const formattedVal = match[1].includes('.') 
-                            ? currentRaw.toFixed(1) 
-                            : Math.floor(currentRaw);
+                        const formattedVal = match[1].includes('.') ? currentRaw.toFixed(1) : Math.floor(currentRaw);
                         
                         el.innerHTML = `${prefix}${formattedVal}${suffix}${spanHTML}`;
-                        
-                        if (progress < 1) {
-                            window.requestAnimationFrame(step);
-                        }
+                        if (progress < 1) window.requestAnimationFrame(step);
                     };
                     window.requestAnimationFrame(step);
                 }
             });
         };
 
-        // Section observer
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
